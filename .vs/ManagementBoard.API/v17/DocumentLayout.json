@@ -1,0 +1,479 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\Repositories\\ManagementBoard\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{3A37CCC5-B328-4C27-88CF-CFAAB85B7099}|src\\Project.API\\Project.API.csproj|c:\\repositories\\managementboard\\src\\project.api\\controllers\\projectscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{3A37CCC5-B328-4C27-88CF-CFAAB85B7099}|src\\Project.API\\Project.API.csproj|solutionrelative:src\\project.api\\controllers\\projectscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{3A37CCC5-B328-4C27-88CF-CFAAB85B7099}|src\\Project.API\\Project.API.csproj|c:\\repositories\\managementboard\\src\\project.api\\controllers\\usercontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{3A37CCC5-B328-4C27-88CF-CFAAB85B7099}|src\\Project.API\\Project.API.csproj|solutionrelative:src\\project.api\\controllers\\usercontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{D8535A4A-7992-495C-ACC6-D2AF5A059A33}|src\\Job.API\\Job.API.csproj|c:\\repositories\\managementboard\\src\\job.api\\controllers\\jobscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{D8535A4A-7992-495C-ACC6-D2AF5A059A33}|src\\Job.API\\Job.API.csproj|solutionrelative:src\\job.api\\controllers\\jobscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{33A06280-520F-429E-A487-35C8711E8EAE}|src\\ManagementBoard.Core\\ManagementBoard.Core.csproj|c:\\repositories\\managementboard\\src\\managementboard.core\\apiconventions.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{33A06280-520F-429E-A487-35C8711E8EAE}|src\\ManagementBoard.Core\\ManagementBoard.Core.csproj|solutionrelative:src\\managementboard.core\\apiconventions.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{D8535A4A-7992-495C-ACC6-D2AF5A059A33}|src\\Job.API\\Job.API.csproj|c:\\repositories\\managementboard\\src\\job.api\\appsettings.development.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
+      "RelativeMoniker": "D:0:0:{D8535A4A-7992-495C-ACC6-D2AF5A059A33}|src\\Job.API\\Job.API.csproj|solutionrelative:src\\job.api\\appsettings.development.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{3618CC99-C59F-4174-8271-46F63DF33760}|src\\ManagementBoard.Domain\\ManagementBoard.Domain.csproj|c:\\repositories\\managementboard\\src\\managementboard.domain\\handlers\\getjobsbyprojectideventhandler.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{3618CC99-C59F-4174-8271-46F63DF33760}|src\\ManagementBoard.Domain\\ManagementBoard.Domain.csproj|solutionrelative:src\\managementboard.domain\\handlers\\getjobsbyprojectideventhandler.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{3618CC99-C59F-4174-8271-46F63DF33760}|src\\ManagementBoard.Domain\\ManagementBoard.Domain.csproj|c:\\repositories\\managementboard\\src\\managementboard.domain\\handlers\\getjobhandler.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{3618CC99-C59F-4174-8271-46F63DF33760}|src\\ManagementBoard.Domain\\ManagementBoard.Domain.csproj|solutionrelative:src\\managementboard.domain\\handlers\\getjobhandler.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{3618CC99-C59F-4174-8271-46F63DF33760}|src\\ManagementBoard.Domain\\ManagementBoard.Domain.csproj|c:\\repositories\\managementboard\\src\\managementboard.domain\\handlers\\getalljobshandler.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{3618CC99-C59F-4174-8271-46F63DF33760}|src\\ManagementBoard.Domain\\ManagementBoard.Domain.csproj|solutionrelative:src\\managementboard.domain\\handlers\\getalljobshandler.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{3618CC99-C59F-4174-8271-46F63DF33760}|src\\ManagementBoard.Domain\\ManagementBoard.Domain.csproj|c:\\repositories\\managementboard\\src\\managementboard.domain\\handlers\\editjobhandler.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{3618CC99-C59F-4174-8271-46F63DF33760}|src\\ManagementBoard.Domain\\ManagementBoard.Domain.csproj|solutionrelative:src\\managementboard.domain\\handlers\\editjobhandler.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{3618CC99-C59F-4174-8271-46F63DF33760}|src\\ManagementBoard.Domain\\ManagementBoard.Domain.csproj|c:\\repositories\\managementboard\\src\\managementboard.domain\\mappers\\jobmapper.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{3618CC99-C59F-4174-8271-46F63DF33760}|src\\ManagementBoard.Domain\\ManagementBoard.Domain.csproj|solutionrelative:src\\managementboard.domain\\mappers\\jobmapper.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{3618CC99-C59F-4174-8271-46F63DF33760}|src\\ManagementBoard.Domain\\ManagementBoard.Domain.csproj|c:\\repositories\\managementboard\\src\\managementboard.domain\\services\\projectservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{3618CC99-C59F-4174-8271-46F63DF33760}|src\\ManagementBoard.Domain\\ManagementBoard.Domain.csproj|solutionrelative:src\\managementboard.domain\\services\\projectservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{ABCA14FB-F03F-4442-BC88-30E7FE9C969C}|src\\ManagementBoard.Infrastructure\\ManagementBoard.Infrastructure.csproj|c:\\repositories\\managementboard\\src\\managementboard.infrastructure\\applicationdbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{ABCA14FB-F03F-4442-BC88-30E7FE9C969C}|src\\ManagementBoard.Infrastructure\\ManagementBoard.Infrastructure.csproj|solutionrelative:src\\managementboard.infrastructure\\applicationdbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{ABCA14FB-F03F-4442-BC88-30E7FE9C969C}|src\\ManagementBoard.Infrastructure\\ManagementBoard.Infrastructure.csproj|c:\\repositories\\managementboard\\src\\managementboard.infrastructure\\repositories\\jobrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{ABCA14FB-F03F-4442-BC88-30E7FE9C969C}|src\\ManagementBoard.Infrastructure\\ManagementBoard.Infrastructure.csproj|solutionrelative:src\\managementboard.infrastructure\\repositories\\jobrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{ABCA14FB-F03F-4442-BC88-30E7FE9C969C}|src\\ManagementBoard.Infrastructure\\ManagementBoard.Infrastructure.csproj|c:\\repositories\\managementboard\\src\\managementboard.infrastructure\\schemadefinitions\\jobentityschemaconfiguration.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{ABCA14FB-F03F-4442-BC88-30E7FE9C969C}|src\\ManagementBoard.Infrastructure\\ManagementBoard.Infrastructure.csproj|solutionrelative:src\\managementboard.infrastructure\\schemadefinitions\\jobentityschemaconfiguration.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{3A37CCC5-B328-4C27-88CF-CFAAB85B7099}|src\\Project.API\\Project.API.csproj|c:\\repositories\\managementboard\\src\\project.api\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
+      "RelativeMoniker": "D:0:0:{3A37CCC5-B328-4C27-88CF-CFAAB85B7099}|src\\Project.API\\Project.API.csproj|solutionrelative:src\\project.api\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{3618CC99-C59F-4174-8271-46F63DF33760}|src\\ManagementBoard.Domain\\ManagementBoard.Domain.csproj|c:\\repositories\\managementboard\\src\\managementboard.domain\\repositories\\abstractions\\ijobrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{3618CC99-C59F-4174-8271-46F63DF33760}|src\\ManagementBoard.Domain\\ManagementBoard.Domain.csproj|solutionrelative:src\\managementboard.domain\\repositories\\abstractions\\ijobrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{3618CC99-C59F-4174-8271-46F63DF33760}|src\\ManagementBoard.Domain\\ManagementBoard.Domain.csproj|c:\\repositories\\managementboard\\src\\managementboard.domain\\handlers\\createjobhandler.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{3618CC99-C59F-4174-8271-46F63DF33760}|src\\ManagementBoard.Domain\\ManagementBoard.Domain.csproj|solutionrelative:src\\managementboard.domain\\handlers\\createjobhandler.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{3618CC99-C59F-4174-8271-46F63DF33760}|src\\ManagementBoard.Domain\\ManagementBoard.Domain.csproj|c:\\repositories\\managementboard\\src\\managementboard.domain\\handlers\\deletejobhandler.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{3618CC99-C59F-4174-8271-46F63DF33760}|src\\ManagementBoard.Domain\\ManagementBoard.Domain.csproj|solutionrelative:src\\managementboard.domain\\handlers\\deletejobhandler.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{3618CC99-C59F-4174-8271-46F63DF33760}|src\\ManagementBoard.Domain\\ManagementBoard.Domain.csproj|c:\\repositories\\managementboard\\src\\managementboard.domain\\events\\job\\getjobsbyprojectidevent.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{3618CC99-C59F-4174-8271-46F63DF33760}|src\\ManagementBoard.Domain\\ManagementBoard.Domain.csproj|solutionrelative:src\\managementboard.domain\\events\\job\\getjobsbyprojectidevent.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{3618CC99-C59F-4174-8271-46F63DF33760}|src\\ManagementBoard.Domain\\ManagementBoard.Domain.csproj|c:\\repositories\\managementboard\\src\\managementboard.domain\\dtos\\responses\\jobresponse.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{3618CC99-C59F-4174-8271-46F63DF33760}|src\\ManagementBoard.Domain\\ManagementBoard.Domain.csproj|solutionrelative:src\\managementboard.domain\\dtos\\responses\\jobresponse.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{ABCA14FB-F03F-4442-BC88-30E7FE9C969C}|src\\ManagementBoard.Infrastructure\\ManagementBoard.Infrastructure.csproj|c:\\repositories\\managementboard\\src\\managementboard.infrastructure\\extensions\\eventsextensions.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{ABCA14FB-F03F-4442-BC88-30E7FE9C969C}|src\\ManagementBoard.Infrastructure\\ManagementBoard.Infrastructure.csproj|solutionrelative:src\\managementboard.infrastructure\\extensions\\eventsextensions.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{ABCA14FB-F03F-4442-BC88-30E7FE9C969C}|src\\ManagementBoard.Infrastructure\\ManagementBoard.Infrastructure.csproj|c:\\repositories\\managementboard\\src\\managementboard.infrastructure\\extensions\\dependencyregistration.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{ABCA14FB-F03F-4442-BC88-30E7FE9C969C}|src\\ManagementBoard.Infrastructure\\ManagementBoard.Infrastructure.csproj|solutionrelative:src\\managementboard.infrastructure\\extensions\\dependencyregistration.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{ABCA14FB-F03F-4442-BC88-30E7FE9C969C}|src\\ManagementBoard.Infrastructure\\ManagementBoard.Infrastructure.csproj|c:\\repositories\\managementboard\\src\\managementboard.infrastructure\\extensions\\authenticationextensions.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{ABCA14FB-F03F-4442-BC88-30E7FE9C969C}|src\\ManagementBoard.Infrastructure\\ManagementBoard.Infrastructure.csproj|solutionrelative:src\\managementboard.infrastructure\\extensions\\authenticationextensions.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{3618CC99-C59F-4174-8271-46F63DF33760}|src\\ManagementBoard.Domain\\ManagementBoard.Domain.csproj|c:\\repositories\\managementboard\\src\\managementboard.domain\\extensions\\dependencyregistration.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{3618CC99-C59F-4174-8271-46F63DF33760}|src\\ManagementBoard.Domain\\ManagementBoard.Domain.csproj|solutionrelative:src\\managementboard.domain\\extensions\\dependencyregistration.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{3618CC99-C59F-4174-8271-46F63DF33760}|src\\ManagementBoard.Domain\\ManagementBoard.Domain.csproj|c:\\repositories\\managementboard\\src\\managementboard.domain\\entities\\project.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{3618CC99-C59F-4174-8271-46F63DF33760}|src\\ManagementBoard.Domain\\ManagementBoard.Domain.csproj|solutionrelative:src\\managementboard.domain\\entities\\project.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{3618CC99-C59F-4174-8271-46F63DF33760}|src\\ManagementBoard.Domain\\ManagementBoard.Domain.csproj|c:\\repositories\\managementboard\\src\\managementboard.domain\\entities\\job.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{3618CC99-C59F-4174-8271-46F63DF33760}|src\\ManagementBoard.Domain\\ManagementBoard.Domain.csproj|solutionrelative:src\\managementboard.domain\\entities\\job.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{ABCA14FB-F03F-4442-BC88-30E7FE9C969C}|src\\ManagementBoard.Infrastructure\\ManagementBoard.Infrastructure.csproj|c:\\repositories\\managementboard\\src\\managementboard.infrastructure\\managementboard.infrastructure.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|",
+      "RelativeMoniker": "D:0:0:{ABCA14FB-F03F-4442-BC88-30E7FE9C969C}|src\\ManagementBoard.Infrastructure\\ManagementBoard.Infrastructure.csproj|solutionrelative:src\\managementboard.infrastructure\\managementboard.infrastructure.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 1,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "UserController.cs",
+              "DocumentMoniker": "C:\\Repositories\\ManagementBoard\\src\\Project.API\\Controllers\\UserController.cs",
+              "RelativeDocumentMoniker": "src\\Project.API\\Controllers\\UserController.cs",
+              "ToolTip": "C:\\Repositories\\ManagementBoard\\src\\Project.API\\Controllers\\UserController.cs",
+              "RelativeToolTip": "src\\Project.API\\Controllers\\UserController.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-03-09T12:42:02.852Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "ProjectsController.cs",
+              "DocumentMoniker": "C:\\Repositories\\ManagementBoard\\src\\Project.API\\Controllers\\ProjectsController.cs",
+              "RelativeDocumentMoniker": "src\\Project.API\\Controllers\\ProjectsController.cs",
+              "ToolTip": "C:\\Repositories\\ManagementBoard\\src\\Project.API\\Controllers\\ProjectsController.cs",
+              "RelativeToolTip": "src\\Project.API\\Controllers\\ProjectsController.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAADMAAABAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-03-09T12:41:45.442Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "ApiConventions.cs",
+              "DocumentMoniker": "C:\\Repositories\\ManagementBoard\\src\\ManagementBoard.Core\\ApiConventions.cs",
+              "RelativeDocumentMoniker": "src\\ManagementBoard.Core\\ApiConventions.cs",
+              "ToolTip": "C:\\Repositories\\ManagementBoard\\src\\ManagementBoard.Core\\ApiConventions.cs",
+              "RelativeToolTip": "src\\ManagementBoard.Core\\ApiConventions.cs",
+              "ViewState": "AQIAAC4AAAAAAAAAAAAkwAEAAAAfAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-03-09T12:37:06.321Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "JobsController.cs",
+              "DocumentMoniker": "C:\\Repositories\\ManagementBoard\\src\\Job.API\\Controllers\\JobsController.cs",
+              "RelativeDocumentMoniker": "src\\Job.API\\Controllers\\JobsController.cs",
+              "ToolTip": "C:\\Repositories\\ManagementBoard\\src\\Job.API\\Controllers\\JobsController.cs",
+              "RelativeToolTip": "src\\Job.API\\Controllers\\JobsController.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAoAAAAdAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-03-09T12:31:00.863Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "appsettings.Development.json",
+              "DocumentMoniker": "C:\\Repositories\\ManagementBoard\\src\\Job.API\\appsettings.Development.json",
+              "RelativeDocumentMoniker": "src\\Job.API\\appsettings.Development.json",
+              "ToolTip": "C:\\Repositories\\ManagementBoard\\src\\Job.API\\appsettings.Development.json",
+              "RelativeToolTip": "src\\Job.API\\appsettings.Development.json",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
+              "WhenOpened": "2024-03-09T12:29:51.398Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "GetJobsByProjectIdEventHandler.cs",
+              "DocumentMoniker": "C:\\Repositories\\ManagementBoard\\src\\ManagementBoard.Domain\\Handlers\\GetJobsByProjectIdEventHandler.cs",
+              "RelativeDocumentMoniker": "src\\ManagementBoard.Domain\\Handlers\\GetJobsByProjectIdEventHandler.cs",
+              "ToolTip": "C:\\Repositories\\ManagementBoard\\src\\ManagementBoard.Domain\\Handlers\\GetJobsByProjectIdEventHandler.cs",
+              "RelativeToolTip": "src\\ManagementBoard.Domain\\Handlers\\GetJobsByProjectIdEventHandler.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAB0AAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-03-09T12:26:09.792Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "GetJobHandler.cs",
+              "DocumentMoniker": "C:\\Repositories\\ManagementBoard\\src\\ManagementBoard.Domain\\Handlers\\GetJobHandler.cs",
+              "RelativeDocumentMoniker": "src\\ManagementBoard.Domain\\Handlers\\GetJobHandler.cs",
+              "ToolTip": "C:\\Repositories\\ManagementBoard\\src\\ManagementBoard.Domain\\Handlers\\GetJobHandler.cs",
+              "RelativeToolTip": "src\\ManagementBoard.Domain\\Handlers\\GetJobHandler.cs",
+              "ViewState": "AQIAABUAAAAAAAAAAIAwwBsAAAANAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-03-09T12:25:11.65Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "GetAllJobsHandler.cs",
+              "DocumentMoniker": "C:\\Repositories\\ManagementBoard\\src\\ManagementBoard.Domain\\Handlers\\GetAllJobsHandler.cs",
+              "RelativeDocumentMoniker": "src\\ManagementBoard.Domain\\Handlers\\GetAllJobsHandler.cs",
+              "ToolTip": "C:\\Repositories\\ManagementBoard\\src\\ManagementBoard.Domain\\Handlers\\GetAllJobsHandler.cs",
+              "RelativeToolTip": "src\\ManagementBoard.Domain\\Handlers\\GetAllJobsHandler.cs",
+              "ViewState": "AQIAAAwAAAAAAAAAAAAhwBUAAAAxAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-03-09T12:24:12.618Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 9,
+              "Title": "JobMapper.cs",
+              "DocumentMoniker": "C:\\Repositories\\ManagementBoard\\src\\ManagementBoard.Domain\\Mappers\\JobMapper.cs",
+              "RelativeDocumentMoniker": "src\\ManagementBoard.Domain\\Mappers\\JobMapper.cs",
+              "ToolTip": "C:\\Repositories\\ManagementBoard\\src\\ManagementBoard.Domain\\Mappers\\JobMapper.cs",
+              "RelativeToolTip": "src\\ManagementBoard.Domain\\Mappers\\JobMapper.cs",
+              "ViewState": "AQIAAB4AAAAAAAAAAAAhwCQAAAA5AAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-03-09T12:23:31.347Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 10,
+              "Title": "ProjectService.cs",
+              "DocumentMoniker": "C:\\Repositories\\ManagementBoard\\src\\ManagementBoard.Domain\\Services\\ProjectService.cs",
+              "RelativeDocumentMoniker": "src\\ManagementBoard.Domain\\Services\\ProjectService.cs",
+              "ToolTip": "C:\\Repositories\\ManagementBoard\\src\\ManagementBoard.Domain\\Services\\ProjectService.cs",
+              "RelativeToolTip": "src\\ManagementBoard.Domain\\Services\\ProjectService.cs",
+              "ViewState": "AQIAAKgAAAAAAAAAAAApwLMAAABdAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-03-09T12:22:43.075Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 11,
+              "Title": "ApplicationDbContext.cs",
+              "DocumentMoniker": "C:\\Repositories\\ManagementBoard\\src\\ManagementBoard.Infrastructure\\ApplicationDbContext.cs",
+              "RelativeDocumentMoniker": "src\\ManagementBoard.Infrastructure\\ApplicationDbContext.cs",
+              "ToolTip": "C:\\Repositories\\ManagementBoard\\src\\ManagementBoard.Infrastructure\\ApplicationDbContext.cs",
+              "RelativeToolTip": "src\\ManagementBoard.Infrastructure\\ApplicationDbContext.cs",
+              "ViewState": "AQIAAAsAAAAAAAAAAAApwBYAAAAeAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-03-09T12:22:36.443Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 12,
+              "Title": "JobRepository.cs",
+              "DocumentMoniker": "C:\\Repositories\\ManagementBoard\\src\\ManagementBoard.Infrastructure\\Repositories\\JobRepository.cs",
+              "RelativeDocumentMoniker": "src\\ManagementBoard.Infrastructure\\Repositories\\JobRepository.cs",
+              "ToolTip": "C:\\Repositories\\ManagementBoard\\src\\ManagementBoard.Infrastructure\\Repositories\\JobRepository.cs",
+              "RelativeToolTip": "src\\ManagementBoard.Infrastructure\\Repositories\\JobRepository.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAACQAAAAkAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-03-09T12:21:16.3Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 14,
+              "Title": "appsettings.json",
+              "DocumentMoniker": "C:\\Repositories\\ManagementBoard\\src\\Project.API\\appsettings.json",
+              "RelativeDocumentMoniker": "src\\Project.API\\appsettings.json",
+              "ToolTip": "C:\\Repositories\\ManagementBoard\\src\\Project.API\\appsettings.json",
+              "RelativeToolTip": "src\\Project.API\\appsettings.json",
+              "ViewState": "AQIAAAMAAAAAAAAAAAApwA4AAAAXAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
+              "WhenOpened": "2024-03-09T12:21:06.321Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 13,
+              "Title": "JobEntitySchemaConfiguration.cs",
+              "DocumentMoniker": "C:\\Repositories\\ManagementBoard\\src\\ManagementBoard.Infrastructure\\SchemaDefinitions\\JobEntitySchemaConfiguration.cs",
+              "RelativeDocumentMoniker": "src\\ManagementBoard.Infrastructure\\SchemaDefinitions\\JobEntitySchemaConfiguration.cs",
+              "ToolTip": "C:\\Repositories\\ManagementBoard\\src\\ManagementBoard.Infrastructure\\SchemaDefinitions\\JobEntitySchemaConfiguration.cs",
+              "RelativeToolTip": "src\\ManagementBoard.Infrastructure\\SchemaDefinitions\\JobEntitySchemaConfiguration.cs",
+              "ViewState": "AQIAAAIAAAAAAAAAAAAhwAsAAAAgAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-03-09T12:20:59.503Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "EditJobHandler.cs",
+              "DocumentMoniker": "C:\\Repositories\\ManagementBoard\\src\\ManagementBoard.Domain\\Handlers\\EditJobHandler.cs",
+              "RelativeDocumentMoniker": "src\\ManagementBoard.Domain\\Handlers\\EditJobHandler.cs",
+              "ToolTip": "C:\\Repositories\\ManagementBoard\\src\\ManagementBoard.Domain\\Handlers\\EditJobHandler.cs",
+              "RelativeToolTip": "src\\ManagementBoard.Domain\\Handlers\\EditJobHandler.cs",
+              "ViewState": "AQIAAAcAAAAAAAAAAAAawCQAAAATAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-03-09T12:17:18.316Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 15,
+              "Title": "IJobRepository.cs",
+              "DocumentMoniker": "C:\\Repositories\\ManagementBoard\\src\\ManagementBoard.Domain\\Repositories\\Abstractions\\IJobRepository.cs",
+              "RelativeDocumentMoniker": "src\\ManagementBoard.Domain\\Repositories\\Abstractions\\IJobRepository.cs",
+              "ToolTip": "C:\\Repositories\\ManagementBoard\\src\\ManagementBoard.Domain\\Repositories\\Abstractions\\IJobRepository.cs",
+              "RelativeToolTip": "src\\ManagementBoard.Domain\\Repositories\\Abstractions\\IJobRepository.cs",
+              "ViewState": "AQIAAAMAAAAAAAAAAAAmwAoAAAAfAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-03-09T12:18:18.238Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 17,
+              "Title": "DeleteJobHandler.cs",
+              "DocumentMoniker": "C:\\Repositories\\ManagementBoard\\src\\ManagementBoard.Domain\\Handlers\\DeleteJobHandler.cs",
+              "RelativeDocumentMoniker": "src\\ManagementBoard.Domain\\Handlers\\DeleteJobHandler.cs",
+              "ToolTip": "C:\\Repositories\\ManagementBoard\\src\\ManagementBoard.Domain\\Handlers\\DeleteJobHandler.cs",
+              "RelativeToolTip": "src\\ManagementBoard.Domain\\Handlers\\DeleteJobHandler.cs",
+              "ViewState": "AQIAAAIAAAAAAAAAAAAkwA8AAAAzAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-03-09T12:17:01.183Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 16,
+              "Title": "CreateJobHandler.cs",
+              "DocumentMoniker": "C:\\Repositories\\ManagementBoard\\src\\ManagementBoard.Domain\\Handlers\\CreateJobHandler.cs",
+              "RelativeDocumentMoniker": "src\\ManagementBoard.Domain\\Handlers\\CreateJobHandler.cs",
+              "ToolTip": "C:\\Repositories\\ManagementBoard\\src\\ManagementBoard.Domain\\Handlers\\CreateJobHandler.cs",
+              "RelativeToolTip": "src\\ManagementBoard.Domain\\Handlers\\CreateJobHandler.cs",
+              "ViewState": "AQIAABYAAAAAAAAAAAApwCEAAAAuAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-03-09T12:16:11.363Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 18,
+              "Title": "GetJobsByProjectIdEvent.cs",
+              "DocumentMoniker": "C:\\Repositories\\ManagementBoard\\src\\ManagementBoard.Domain\\Events\\Job\\GetJobsByProjectIdEvent.cs",
+              "RelativeDocumentMoniker": "src\\ManagementBoard.Domain\\Events\\Job\\GetJobsByProjectIdEvent.cs",
+              "ToolTip": "C:\\Repositories\\ManagementBoard\\src\\ManagementBoard.Domain\\Events\\Job\\GetJobsByProjectIdEvent.cs",
+              "RelativeToolTip": "src\\ManagementBoard.Domain\\Events\\Job\\GetJobsByProjectIdEvent.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAIAAAArAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-03-09T12:12:49.593Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 19,
+              "Title": "JobResponse.cs",
+              "DocumentMoniker": "C:\\Repositories\\ManagementBoard\\src\\ManagementBoard.Domain\\DTOs\\Responses\\JobResponse.cs",
+              "RelativeDocumentMoniker": "src\\ManagementBoard.Domain\\DTOs\\Responses\\JobResponse.cs",
+              "ToolTip": "C:\\Repositories\\ManagementBoard\\src\\ManagementBoard.Domain\\DTOs\\Responses\\JobResponse.cs",
+              "RelativeToolTip": "src\\ManagementBoard.Domain\\DTOs\\Responses\\JobResponse.cs",
+              "ViewState": "AQIAAAMAAAAAAAAAAAAAAAQAAAABAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-03-09T12:12:16.246Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 20,
+              "Title": "EventsExtensions.cs",
+              "DocumentMoniker": "C:\\Repositories\\ManagementBoard\\src\\ManagementBoard.Infrastructure\\Extensions\\EventsExtensions.cs",
+              "RelativeDocumentMoniker": "src\\ManagementBoard.Infrastructure\\Extensions\\EventsExtensions.cs",
+              "ToolTip": "C:\\Repositories\\ManagementBoard\\src\\ManagementBoard.Infrastructure\\Extensions\\EventsExtensions.cs",
+              "RelativeToolTip": "src\\ManagementBoard.Infrastructure\\Extensions\\EventsExtensions.cs",
+              "ViewState": "AQIAAAYAAAAAAAAAAAAAAAsAAAAkAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-03-09T12:11:30.967Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 26,
+              "Title": "ManagementBoard.Infrastructure",
+              "DocumentMoniker": "C:\\Repositories\\ManagementBoard\\src\\ManagementBoard.Infrastructure\\ManagementBoard.Infrastructure.csproj",
+              "RelativeDocumentMoniker": "src\\ManagementBoard.Infrastructure\\ManagementBoard.Infrastructure.csproj",
+              "ToolTip": "C:\\Repositories\\ManagementBoard\\src\\ManagementBoard.Infrastructure\\ManagementBoard.Infrastructure.csproj",
+              "RelativeToolTip": "src\\ManagementBoard.Infrastructure\\ManagementBoard.Infrastructure.csproj",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000758|",
+              "WhenOpened": "2024-03-09T12:02:45.037Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 21,
+              "Title": "DependencyRegistration.cs",
+              "DocumentMoniker": "C:\\Repositories\\ManagementBoard\\src\\ManagementBoard.Infrastructure\\Extensions\\DependencyRegistration.cs",
+              "RelativeDocumentMoniker": "src\\ManagementBoard.Infrastructure\\Extensions\\DependencyRegistration.cs",
+              "ToolTip": "C:\\Repositories\\ManagementBoard\\src\\ManagementBoard.Infrastructure\\Extensions\\DependencyRegistration.cs",
+              "RelativeToolTip": "src\\ManagementBoard.Infrastructure\\Extensions\\DependencyRegistration.cs",
+              "ViewState": "AQIAAAYAAAAAAAAAAAAAABAAAABVAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-03-09T12:08:50.055Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 22,
+              "Title": "AuthenticationExtensions.cs",
+              "DocumentMoniker": "C:\\Repositories\\ManagementBoard\\src\\ManagementBoard.Infrastructure\\Extensions\\AuthenticationExtensions.cs",
+              "RelativeDocumentMoniker": "src\\ManagementBoard.Infrastructure\\Extensions\\AuthenticationExtensions.cs",
+              "ToolTip": "C:\\Repositories\\ManagementBoard\\src\\ManagementBoard.Infrastructure\\Extensions\\AuthenticationExtensions.cs",
+              "RelativeToolTip": "src\\ManagementBoard.Infrastructure\\Extensions\\AuthenticationExtensions.cs",
+              "ViewState": "AQIAACgAAAAAAAAAAAAQwAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-03-09T12:08:46.423Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 23,
+              "Title": "DependencyRegistration.cs",
+              "DocumentMoniker": "C:\\Repositories\\ManagementBoard\\src\\ManagementBoard.Domain\\Extensions\\DependencyRegistration.cs",
+              "RelativeDocumentMoniker": "src\\ManagementBoard.Domain\\Extensions\\DependencyRegistration.cs",
+              "ToolTip": "C:\\Repositories\\ManagementBoard\\src\\ManagementBoard.Domain\\Extensions\\DependencyRegistration.cs",
+              "RelativeToolTip": "src\\ManagementBoard.Domain\\Extensions\\DependencyRegistration.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-03-09T12:06:31.813Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 24,
+              "Title": "Project.cs",
+              "DocumentMoniker": "C:\\Repositories\\ManagementBoard\\src\\ManagementBoard.Domain\\Entities\\Project.cs",
+              "RelativeDocumentMoniker": "src\\ManagementBoard.Domain\\Entities\\Project.cs",
+              "ToolTip": "C:\\Repositories\\ManagementBoard\\src\\ManagementBoard.Domain\\Entities\\Project.cs",
+              "RelativeToolTip": "src\\ManagementBoard.Domain\\Entities\\Project.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAoAAAAvAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-03-09T12:05:35.913Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 25,
+              "Title": "Job.cs",
+              "DocumentMoniker": "C:\\Repositories\\ManagementBoard\\src\\ManagementBoard.Domain\\Entities\\Job.cs",
+              "RelativeDocumentMoniker": "src\\ManagementBoard.Domain\\Entities\\Job.cs",
+              "ToolTip": "C:\\Repositories\\ManagementBoard\\src\\ManagementBoard.Domain\\Entities\\Job.cs",
+              "RelativeToolTip": "src\\ManagementBoard.Domain\\Entities\\Job.cs",
+              "ViewState": "AQIAAAMAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-03-09T12:05:28.668Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

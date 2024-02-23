@@ -1,0 +1,37 @@
+version: "25.0.3"
+services:
+  project_api:
+    container_name: boardproject_api
+    build:
+      context: .
+      dockerfile: containers/api/Dockerfile
+    env_file:
+      - containers/api/api.env
+    networks:
+      - my_network
+    ports:
+      - 5000:5000
+    depends_on:
+      - boardproject_db
+      - project_esb
+      
+  boardproject_db:
+    container_name: BoardProjectDatabase
+    image: microsoft/mssql-server-linux
+    networks:
+      - my_network
+    env_file:
+      - containers/db/db.env
+  
+  project_esb:
+    container_name: project_esb
+    image: rabbitmq:6-project
+    ports:
+      - 5672:5672
+      - 15672:15672
+    networks:
+      - my_network
+  
+networks:
+  my_network:
+    driver: bridge
