@@ -1,4 +1,4 @@
-﻿using BoardProject.Core.Abstractions;
+﻿using FluentResults;
 using BoardProject.Domain.DTOs.Requests.Project;
 using BoardProject.Domain.DTOs.Responses;
 

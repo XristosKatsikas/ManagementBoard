@@ -1,4 +1,4 @@
-﻿using BoardProject.Core.ApiExtensions;
+﻿using BoardProject.Core;
 using BoardProject.Domain.DTOs.Requests.Project;
 using BoardProject.Domain.Services.Abstractions;
 using Microsoft.AspNetCore.Authorization;

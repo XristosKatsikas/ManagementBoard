@@ -1,15 +1,14 @@
 ﻿using BoardProject.Core;
-using BoardProject.Core.Abstractions;
 using BoardProject.Domain.Configurations;
 using BoardProject.Domain.DTOs.Requests.Project;
 using BoardProject.Domain.DTOs.Requests.Project.Validators;
 using BoardProject.Domain.DTOs.Responses;
 using BoardProject.Domain.Events.Project;
-using BoardProject.Domain.Helper;
 using BoardProject.Domain.Mappers;
 using BoardProject.Domain.Repositories.Abstractions;
 using BoardProject.Domain.Services.Abstractions;
 using BoardProject.Domain.Services.RabbitMq;
+using FluentResults;
 using Microsoft.Extensions.Logging;
 using RabbitMQ.Client;
 
@@ -45,7 +44,7 @@ namespace BoardProject.Domain.Services
 
                 if (!validationResult.IsValid)
                 {
-                    return await FailedResponse.GetUnprocessableValidationResultAsync(validationResult);
+                    return (IResult<ProjectResponse>)Result.Fail(validationResult.Errors.Select(val => val.ErrorMessage).ToList());
                 }
 
                 var projectEntity = ProjectMapper.ToEntity(request);
@@ -54,20 +53,17 @@ namespace BoardProject.Domain.Services
 
                 if(project is null)
                 {
-                    return await FailedResponse.GetBadRequestResultAsync(projectEntity.ProjectId);
+                    return (IResult<ProjectResponse>)Result.Fail(string.Format("Bad request for project entity with Id {0}", projectEntity.ProjectId));
                 }
 
                 await _projectRepository.UnitOfWork.SaveChangesAsync();
 
-                return Result<ProjectResponse>.CreateSuccessful(project.ToResponse());
+                return (IResult<ProjectResponse>)Result.Ok(project.ToResponse);
             }
             catch (Exception ex)
             {
                _logger.LogError($"Exception was thrown from {nameof(AddProjectAsync)}");
-                return Result<ProjectResponse>.CreateFailed(
-                    _logger,
-                    ResultCode.BadGateway,
-                    ex.Message);
+                return (IResult<ProjectResponse>)Result.Fail(ex.Message);
             }
         }
 
@@ -80,7 +76,7 @@ namespace BoardProject.Domain.Services
 
                 if (!validationResult.IsValid)
                 {
-                    return await FailedResponse.GetUnprocessableValidationResultAsync(validationResult);
+                    return (IResult<ProjectResponse>)Result.Fail(validationResult.Errors.Select(val => val.ErrorMessage).ToList());
                 }
 
                 var projectEntity = ProjectMapper.ToEntity(request);
@@ -89,20 +85,17 @@ namespace BoardProject.Domain.Services
 
                 if (project is null)
                 {
-                    return await FailedResponse.GetBadRequestResultAsync(projectEntity.ProjectId);
+                    return (IResult<ProjectResponse>)Result.Fail(string.Format("Bad request for project entity with Id {0}", projectEntity.ProjectId));
                 }
 
                 await _projectRepository.UnitOfWork.SaveChangesAsync();
 
-                return Result<ProjectResponse>.CreateSuccessful(project.ToResponse());
+                return (IResult<ProjectResponse>)Result.Ok(project.ToResponse);
             }
             catch (Exception ex)
             {
                 _logger.LogError($"Exception was thrown from {nameof(DeleteProjectAsync)}");
-                return Result<ProjectResponse>.CreateFailed(
-                    _logger,
-                    ResultCode.BadGateway,
-                    ex.Message);
+                return (IResult<ProjectResponse>)Result.Fail(ex.Message);
             }
         }
 
@@ -115,7 +108,7 @@ namespace BoardProject.Domain.Services
 
                 if (!validationResult.IsValid)
                 {
-                    return await FailedResponse.GetUnprocessableValidationResultAsync(validationResult);
+                    return (IResult<ProjectResponse>)Result.Fail(validationResult.Errors.Select(val => val.ErrorMessage).ToList());
                 }
 
                 var projectEntity = ProjectMapper.ToEntity(request);
@@ -124,20 +117,17 @@ namespace BoardProject.Domain.Services
 
                 if (project is null)
                 {
-                    return await FailedResponse.GetBadRequestResultAsync(projectEntity.ProjectId);
+                    return (IResult<ProjectResponse>)Result.Fail(string.Format("Bad request for project entity with Id {0}", projectEntity.ProjectId));
                 }
 
                 await _projectRepository.UnitOfWork.SaveChangesAsync();
 
-                return Result<ProjectResponse>.CreateSuccessful(project.ToResponse());
+                return (IResult<ProjectResponse>)Result.Ok(project.ToResponse);
             }
             catch (Exception ex)
             {
                 _logger.LogError($"Exception was thrown from {nameof(EditProjectAsync)}");
-                return Result<ProjectResponse>.CreateFailed(
-                    _logger,
-                    ResultCode.BadGateway,
-                    ex.Message);
+                return (IResult<ProjectResponse>)Result.Fail(ex.Message);
             }
         }
 
@@ -150,7 +140,7 @@ namespace BoardProject.Domain.Services
 
                 if (!validationResult.IsValid)
                 {
-                    return await FailedResponse.GetUnprocessableValidationResultAsync(validationResult);
+                    return (IResult<ProjectResponse>)Result.Fail(validationResult.Errors.Select(val => val.ErrorMessage).ToList());
                 }
 
                 var projectEntity = ProjectMapper.ToEntity(request);
@@ -159,25 +149,22 @@ namespace BoardProject.Domain.Services
 
                 if (project is null)
                 {
-                    return await FailedResponse.GetBadRequestResultAsync(projectEntity.ProjectId);
+                    return (IResult<ProjectResponse>)Result.Fail(string.Format("Bad request for project entity with Id {0}", projectEntity.ProjectId));
                 }
 
-                var isEventSend = IsGetAllJobsByProjectIdEventSend(new GetJobsByProjectIdEvent { Id = request.Id });
+                var isEventSend = IsGetAllJobsByProjectIdEventSend(new GetJobsByProjectIdEvent { Id = projectEntity.ProjectId });
 
                 if(!isEventSend) 
                 {
-                    return await FailedResponse.GetUnprocessableEventResultAsync();
+                    return (IResult<ProjectResponse>)Result.Fail($"Event not send from {nameof(GetProjectAsync)}");
                 }
 
-                return Result<ProjectResponse>.CreateSuccessful(project.ToResponse());
+                return (IResult<ProjectResponse>)Result.Ok(project.ToResponse);
             }
             catch (Exception ex)
             {
                 _logger.LogError($"Exception was thrown from {nameof(GetProjectAsync)}");
-                return Result<ProjectResponse>.CreateFailed(
-                    _logger,
-                    ResultCode.BadGateway,
-                    ex.Message);
+                return (IResult<ProjectResponse>)Result.Fail(ex.Message);
             }
         }
 
@@ -197,15 +184,12 @@ namespace BoardProject.Domain.Services
                 var model = new PaginatedEntityResponseModel<ProjectResponse>(
                     pageIndex, pageSize, totalProjects, projectsOnPage);
 
-                return Result<IEnumerable<ProjectResponse>>.CreateSuccessful(model.Data);
+                return (IResult<IEnumerable<ProjectResponse>>)Result.Ok(model);
             }
             catch (Exception ex)
             {
                 _logger.LogError($"Exception was thrown from {nameof(GetProjectsAsync)}");
-                return Result<IEnumerable<ProjectResponse>>.CreateFailed(
-                    _logger,
-                    ResultCode.BadGateway,
-                    ex.Message);
+                return (IResult<IEnumerable<ProjectResponse>>)Result.Fail(ex.Message);
             }
         }
 
