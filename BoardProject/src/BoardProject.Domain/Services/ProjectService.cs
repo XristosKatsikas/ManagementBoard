@@ -37,16 +37,16 @@ namespace BoardProject.Domain.Services
 
         public async Task<IResult<ProjectResponse>> AddProjectAsync(AddProjectRequest request)
         {
+            var validator = new AddProjectRequestValidator();
+            var validationResult = await validator.ValidateAsync(request);
+
+            if (!validationResult.IsValid)
+            {
+                return (IResult<ProjectResponse>)Result.Fail(validationResult.Errors.Select(val => val.ErrorMessage).ToList());
+            }
+
             try
             {
-                var validator = new AddProjectRequestValidator();
-                var validationResult = await validator.ValidateAsync(request);
-
-                if (!validationResult.IsValid)
-                {
-                    return (IResult<ProjectResponse>)Result.Fail(validationResult.Errors.Select(val => val.ErrorMessage).ToList());
-                }
-
                 var projectEntity = ProjectMapper.ToEntity(request);
 
                 var project = _projectRepository.AddProject(projectEntity);
@@ -69,16 +69,17 @@ namespace BoardProject.Domain.Services
 
         public async Task<IResult<ProjectResponse>> DeleteProjectAsync(DeleteProjectRequest request)
         {
+
+            var validator = new DeleteProjectRequestValidator();
+            var validationResult = await validator.ValidateAsync(request);
+
+            if (!validationResult.IsValid)
+            {
+                return (IResult<ProjectResponse>)Result.Fail(validationResult.Errors.Select(val => val.ErrorMessage).ToList());
+            }
+
             try
             {
-                var validator = new DeleteProjectRequestValidator();
-                var validationResult = await validator.ValidateAsync(request);
-
-                if (!validationResult.IsValid)
-                {
-                    return (IResult<ProjectResponse>)Result.Fail(validationResult.Errors.Select(val => val.ErrorMessage).ToList());
-                }
-
                 var projectEntity = ProjectMapper.ToEntity(request);
 
                 var project = _projectRepository.DeleteProject(projectEntity);
@@ -101,16 +102,17 @@ namespace BoardProject.Domain.Services
 
         public async Task<IResult<ProjectResponse>> EditProjectAsync(EditProjectRequest request)
         {
+
+            var validator = new EditProjectRequestValidator();
+            var validationResult = await validator.ValidateAsync(request);
+
+            if (!validationResult.IsValid)
+            {
+                return (IResult<ProjectResponse>)Result.Fail(validationResult.Errors.Select(val => val.ErrorMessage).ToList());
+            }
+
             try
             {
-                var validator = new EditProjectRequestValidator();
-                var validationResult = await validator.ValidateAsync(request);
-
-                if (!validationResult.IsValid)
-                {
-                    return (IResult<ProjectResponse>)Result.Fail(validationResult.Errors.Select(val => val.ErrorMessage).ToList());
-                }
-
                 var projectEntity = ProjectMapper.ToEntity(request);
 
                 var project = _projectRepository.UpdateProject(projectEntity);
@@ -133,16 +135,17 @@ namespace BoardProject.Domain.Services
 
         public async Task<IResult<ProjectResponse>> GetProjectAsync(GetProjectRequest request)
         {
+
+            var validator = new GetProjectRequestValidator();
+            var validationResult = await validator.ValidateAsync(request);
+
+            if (!validationResult.IsValid)
+            {
+                return (IResult<ProjectResponse>)Result.Fail(validationResult.Errors.Select(val => val.ErrorMessage).ToList());
+            }
+
             try
             {
-                var validator = new GetProjectRequestValidator();
-                var validationResult = await validator.ValidateAsync(request);
-
-                if (!validationResult.IsValid)
-                {
-                    return (IResult<ProjectResponse>)Result.Fail(validationResult.Errors.Select(val => val.ErrorMessage).ToList());
-                }
-
                 var projectEntity = ProjectMapper.ToEntity(request);
 
                 var project = await _projectRepository.GetAsyncByProjectId(projectEntity.ProjectId);
@@ -205,6 +208,6 @@ namespace BoardProject.Domain.Services
                 _logger.LogWarning("Unable to initialize the event bus: { message}", e.Message);
             }
             return false;
-        }
+        }
     }
 }

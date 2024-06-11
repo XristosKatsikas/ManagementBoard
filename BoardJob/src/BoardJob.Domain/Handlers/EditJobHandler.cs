@@ -22,7 +22,7 @@ namespace BoardJob.Domain.Handlers
         public async Task<JobResponse> Handle(EditJobCommand command, CancellationToken cancellationToken)
         {
             var validator = new EditJobCommandValidator();
-            var validationResult = await validator.ValidateAsync(command);
+            var validationResult = await validator.ValidateAsync(command, cancellationToken);
 
             if (!validationResult.IsValid)
             {
