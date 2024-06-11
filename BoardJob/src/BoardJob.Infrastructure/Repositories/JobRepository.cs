@@ -43,13 +43,15 @@ namespace BoardJob.Infrastructure.Repositories
             return null!;
         }
 
-        public Job DeleteJob(Job job)
+        public bool DeleteJob(Job job)
         {
             if (job is not null)
             {
-                return Delete(job);
+                var jobToDelete = Delete(job);
+                if (jobToDelete is null)
+                    return true;
             }
-            return null!;
+            return false;
         }
 
         public async Task<IEnumerable<Job>> GetAllJobsByProjectIdAsync(Guid id)

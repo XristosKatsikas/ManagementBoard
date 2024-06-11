@@ -3,7 +3,7 @@ using MediatR;
 
 namespace BoardJob.Domain.Commands
 {
-    public record DeleteJobCommand : IRequest<JobResponse>
+    public record DeleteJobCommand : IRequest<bool>
     {
         public Guid Id { get; set; }
     }

@@ -24,13 +24,16 @@ namespace BoardProject.Infrastructure.Repositories
             return null!;
         }
 
-        public Project DeleteProject(Project project)
+        public bool DeleteProject(Project project)
         {
             if (project is not null)
             {
-                return Delete(project);
+                var projectToDelete = Delete(project);
+
+                if (projectToDelete is null)
+                    return true;
             }
-            return null!;
+            return false;
         }
 
         public async Task<IEnumerable<Project>> GetAllProjectsAsync()

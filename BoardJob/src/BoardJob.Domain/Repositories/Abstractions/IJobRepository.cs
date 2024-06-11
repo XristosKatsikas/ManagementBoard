@@ -9,7 +9,7 @@ namespace BoardJob.Domain.Repositories.Abstractions
         Task<Job?> GetAsyncByJobId(Guid id);
         Job AddJob(Job job);
         Job UpdateJob(Job job);
-        Job DeleteJob(Job job);
+        bool DeleteJob(Job job);
         IUnitOfWork UnitOfWork { get; }
     }
 }

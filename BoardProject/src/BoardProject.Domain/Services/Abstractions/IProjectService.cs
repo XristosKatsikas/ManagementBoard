@@ -11,6 +11,6 @@ namespace BoardProject.Domain.Services.Abstractions
         Task<IResult<ProjectResponse>> GetProjectAsync(GetProjectRequest request);
         Task<IResult<ProjectResponse>> AddProjectAsync(AddProjectRequest request);
         Task<IResult<ProjectResponse>> EditProjectAsync(EditProjectRequest request);
-        Task<IResult<ProjectResponse>> DeleteProjectAsync(DeleteProjectRequest request);
+        Task<IResult<bool>> DeleteProjectAsync(DeleteProjectRequest request);
     }
 }

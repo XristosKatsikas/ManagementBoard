@@ -67,7 +67,7 @@ namespace BoardProject.Domain.Services
             }
         }
 
-        public async Task<IResult<ProjectResponse>> DeleteProjectAsync(DeleteProjectRequest request)
+        public async Task<IResult<bool>> DeleteProjectAsync(DeleteProjectRequest request)
         {
 
             var validator = new DeleteProjectRequestValidator();
@@ -75,28 +75,28 @@ namespace BoardProject.Domain.Services
 
             if (!validationResult.IsValid)
             {
-                return (IResult<ProjectResponse>)Result.Fail(validationResult.Errors.Select(val => val.ErrorMessage).ToList());
+                return (IResult<bool>)Result.Fail(validationResult.Errors.Select(val => val.ErrorMessage).ToList());
             }
 
             try
             {
                 var projectEntity = ProjectMapper.ToEntity(request);
 
-                var project = _projectRepository.DeleteProject(projectEntity);
+                var isProjectDeleted = _projectRepository.DeleteProject(projectEntity);
 
-                if (project is null)
+                if (!isProjectDeleted)
                 {
-                    return (IResult<ProjectResponse>)Result.Fail(string.Format("Bad request for project entity with Id {0}", projectEntity.ProjectId));
+                    return (IResult<bool>)Result.Fail(string.Format("Bad request for project entity with Id {0}", projectEntity.ProjectId));
                 }
 
                 await _projectRepository.UnitOfWork.SaveChangesAsync();
 
-                return (IResult<ProjectResponse>)Result.Ok(project.ToResponse);
+                return Result.Ok(isProjectDeleted);
             }
             catch (Exception ex)
             {
                 _logger.LogError($"Exception was thrown from {nameof(DeleteProjectAsync)}");
-                return (IResult<ProjectResponse>)Result.Fail(ex.Message);
+                return (IResult<bool>)Result.Fail(ex.Message);
             }
         }
 

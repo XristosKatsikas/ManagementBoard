@@ -71,7 +71,11 @@ namespace BoardProject.API.Controllers
         {
             var user = await _userService.SignUpAsync(request);
 
-            if (user == null) return BadRequest();
+            if (user == null)
+            {
+                return BadRequest();
+            }
+
             return CreatedAtAction(nameof(Get), new { }, null);
         }
 

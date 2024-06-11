@@ -20,17 +20,17 @@ namespace BoardProject.API.Controllers
 
         [HttpPost()]
         [ApiConventionMethod(typeof(ApiConvention), nameof(DefaultApiConventions.Create))]
-        public async Task<IActionResult> AddItemAsync(AddProjectRequest addProjectRequest)
+        public async Task<IActionResult> AddItemAsync([FromBody] AddProjectRequest addProjectRequest)
         {
-            return this.ApiResponse(await _projectService.AddProjectAsync(addProjectRequest));
+            return new ObjectResult(await _projectService.AddProjectAsync(addProjectRequest));
         }
 
         [HttpPut("{id:guid}")]
         [ApiConventionMethod(typeof(ApiConvention), nameof(DefaultApiConventions.Update))]
-        public async Task<IActionResult> EditItemAsync(Guid id, EditProjectRequest editProjectRequest)
+        public async Task<IActionResult> EditItemAsync(Guid id, [FromBody] EditProjectRequest editProjectRequest)
         {
             editProjectRequest.Id = id;
-            return this.ApiResponse(await _projectService.EditProjectAsync(editProjectRequest));
+            return new ObjectResult(await _projectService.EditProjectAsync(editProjectRequest));
         }
 
         [HttpDelete("{id:guid}")]
@@ -38,7 +38,7 @@ namespace BoardProject.API.Controllers
         public async Task<IActionResult> DeleteItemAsync(Guid id, DeleteProjectRequest deleteProjectRequest)
         {
             deleteProjectRequest.Id = id;
-            return this.ApiResponse(await _projectService.DeleteProjectAsync(deleteProjectRequest));
+            return new ObjectResult(await _projectService.DeleteProjectAsync(deleteProjectRequest));
         }
 
         [HttpGet("{id:guid}")]
@@ -46,14 +46,14 @@ namespace BoardProject.API.Controllers
         public async Task<IActionResult> GetItemAsync(Guid id, GetProjectRequest getProjectRequest)
         {
             getProjectRequest.Id = id;
-            return this.ApiResponse(await _projectService.GetProjectAsync(getProjectRequest));
+            return new ObjectResult(await _projectService.GetProjectAsync(getProjectRequest));
         }
 
         [HttpGet("all")]
         [ApiConventionMethod(typeof(ApiConvention), nameof(DefaultApiConventions.Get))]
         public async Task<IActionResult> GetItemsAsync([FromQuery] int pageSize = 10, [FromQuery] int pageIndex = 0)
         {
-            return this.ApiResponse(await _projectService.GetProjectsAsync(pageSize, pageIndex));
+            return new ObjectResult(await _projectService.GetProjectsAsync(pageSize, pageIndex));
         }
     }
 }

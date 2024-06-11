@@ -8,7 +8,7 @@ using Microsoft.Extensions.Logging;
 
 namespace BoardJob.Domain.Handlers
 {
-    public record DeleteJobHandler : IRequestHandler<DeleteJobCommand, JobResponse>
+    public record DeleteJobHandler : IRequestHandler<DeleteJobCommand, bool>
     {
         private readonly ILogger<DeleteJobHandler> _logger;
         private readonly IJobRepository _jobRepository;
@@ -19,7 +19,7 @@ namespace BoardJob.Domain.Handlers
             _logger = logger;
         }
 
-        public async Task<JobResponse> Handle(DeleteJobCommand command, CancellationToken cancellationToken)
+        public async Task<bool> Handle(DeleteJobCommand command, CancellationToken cancellationToken)
         {
             var validator = new DeleteJobCommandValidator();
             var validationResult = await validator.ValidateAsync(command, cancellationToken);
@@ -27,15 +27,15 @@ namespace BoardJob.Domain.Handlers
             if (!validationResult.IsValid)
             {
                 _logger.LogError(string.Format("Validation of command with Id {0} has failed", command.Id));
-                return null!;
+                return false;
             }
 
             var entity = command.ToEntity();
-            var result = _jobRepository.DeleteJob(entity);
+            var isJobDeleted = _jobRepository.DeleteJob(entity);
 
             await _jobRepository.UnitOfWork.SaveChangesAsync();
 
-            return result!.ToResponse();
+            return isJobDeleted;
         }
     }
 }
