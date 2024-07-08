@@ -20,6 +20,8 @@ namespace BoardProject.API.Extensions
                                 .GetTypeInfo()
                                 .Assembly
                                 .GetName().Name);
+
+                            x.EnableRetryOnFailure(3, TimeSpan.FromSeconds(3), null);
                         });
                 });
         }

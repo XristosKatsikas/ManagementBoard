@@ -13,6 +13,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BoardProject.Domain", "src\
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BoardProject.Infrastructure", "src\BoardProject.Infrastructure\BoardProject.Infrastructure.csproj", "{D0854B09-097E-4F6A-A031-E2244FD77DF9}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BoardProject.Core.WebApi", "src\BoardProject.Core.WebApi\BoardProject.Core.WebApi.csproj", "{EBA6F4FA-6EBF-47A2-AC98-86702EC6D9E3}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -35,6 +37,10 @@ Global
 		{D0854B09-097E-4F6A-A031-E2244FD77DF9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D0854B09-097E-4F6A-A031-E2244FD77DF9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D0854B09-097E-4F6A-A031-E2244FD77DF9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EBA6F4FA-6EBF-47A2-AC98-86702EC6D9E3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EBA6F4FA-6EBF-47A2-AC98-86702EC6D9E3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EBA6F4FA-6EBF-47A2-AC98-86702EC6D9E3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EBA6F4FA-6EBF-47A2-AC98-86702EC6D9E3}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -44,6 +50,7 @@ Global
 		{EF340E10-47D2-4C82-BF47-ED4483573FCA} = {A9316E75-6EC3-44C4-80F0-6803FA9F4752}
 		{56F7632B-1C1D-4DA7-BC6B-05AAB3647575} = {A9316E75-6EC3-44C4-80F0-6803FA9F4752}
 		{D0854B09-097E-4F6A-A031-E2244FD77DF9} = {A9316E75-6EC3-44C4-80F0-6803FA9F4752}
+		{EBA6F4FA-6EBF-47A2-AC98-86702EC6D9E3} = {A9316E75-6EC3-44C4-80F0-6803FA9F4752}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {4CA2DADC-0BC8-4148-8715-0C644FA66640}

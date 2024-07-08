@@ -20,11 +20,11 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="Polly" Version="8.3.1" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0" />
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\BoardProject.Core.WebApi\BoardProject.Core.WebApi.csproj" />
     <ProjectReference Include="..\BoardProject.Core\BoardProject.Core.csproj" />
     <ProjectReference Include="..\BoardProject.Domain\BoardProject.Domain.csproj" />
     <ProjectReference Include="..\BoardProject.Infrastructure\BoardProject.Infrastructure.csproj" />
