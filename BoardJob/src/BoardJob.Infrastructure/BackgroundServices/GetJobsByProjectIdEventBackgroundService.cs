@@ -4,10 +4,7 @@ using BoardJob.Infrastructure.RabbitMq;
 using MediatR;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
-using Newtonsoft.Json;
 using RabbitMQ.Client;
-using RabbitMQ.Client.Events;
-using System.Text;
 
 namespace BoardJob.Infrastructure.BackgroundServices
 {
