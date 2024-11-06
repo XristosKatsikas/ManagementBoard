@@ -42,7 +42,11 @@ namespace BoardProject.Domain.Services
 
             if (!validationResult.IsValid)
             {
-                return (IResult<ProjectResponse>)Result.Fail(validationResult.Errors.Select(val => val.ErrorMessage).ToList());
+                var errorMessages = validationResult.Errors.Select(val => val.ErrorMessage).ToList();
+                _logger.LogError($"Validation errors occurred in ProjectService.{nameof(AddProjectAsync)}: " +
+                    $"{string.Join(", ", errorMessages)}");
+
+                return Result.Fail<ProjectResponse>(FailedResultMessage.RequestValidation);
             }
 
             try
@@ -53,29 +57,33 @@ namespace BoardProject.Domain.Services
 
                 if(project is null)
                 {
-                    return (IResult<ProjectResponse>)Result.Fail(string.Format("Bad request for project entity with Id {0}", projectEntity.ProjectId));
+                    _logger.LogError($"Post data from ProjectService.{nameof(AddProjectAsync)} has failed.");
+                    return Result.Fail<ProjectResponse>(FailedResultMessage.Unprocessable);
                 }
 
                 await _projectRepository.UnitOfWork.SaveChangesAsync();
 
-                return (IResult<ProjectResponse>)Result.Ok(project.ToResponse);
+                return Result.Ok(project.ToResponse());
             }
             catch (Exception ex)
             {
-               _logger.LogError($"Exception was thrown from {nameof(AddProjectAsync)}");
-                return (IResult<ProjectResponse>)Result.Fail(ex.Message);
+                _logger.LogError($"ProjectService.{nameof(AddProjectAsync)} has failed with exception message: {ex.Message}");
+                return Result.Fail<ProjectResponse>(FailedResultMessage.Exception);
             }
         }
 
         public async Task<IResult<bool>> DeleteProjectAsync(DeleteProjectRequest request)
         {
-
             var validator = new DeleteProjectRequestValidator();
             var validationResult = await validator.ValidateAsync(request);
 
             if (!validationResult.IsValid)
             {
-                return (IResult<bool>)Result.Fail(validationResult.Errors.Select(val => val.ErrorMessage).ToList());
+                var errorMessages = validationResult.Errors.Select(val => val.ErrorMessage).ToList();
+                _logger.LogError($"Validation errors occurred in ProjectService.{nameof(DeleteProjectAsync)}: " +
+                    $"{string.Join(", ", errorMessages)}");
+
+                return Result.Fail<bool>(FailedResultMessage.RequestValidation);
             }
 
             try
@@ -86,7 +94,8 @@ namespace BoardProject.Domain.Services
 
                 if (!isProjectDeleted)
                 {
-                    return (IResult<bool>)Result.Fail(string.Format("Bad request for project entity with Id {0}", projectEntity.ProjectId));
+                    _logger.LogError($"Delete data from ProjectService.{nameof(DeleteProjectAsync)} has failed.");
+                    return Result.Fail<bool>(FailedResultMessage.NotFound);
                 }
 
                 await _projectRepository.UnitOfWork.SaveChangesAsync();
@@ -95,8 +104,8 @@ namespace BoardProject.Domain.Services
             }
             catch (Exception ex)
             {
-                _logger.LogError($"Exception was thrown from {nameof(DeleteProjectAsync)}");
-                return (IResult<bool>)Result.Fail(ex.Message);
+                _logger.LogError($"ProjectService.{nameof(DeleteProjectAsync)} has failed with exception message: {ex.Message}");
+                return Result.Fail<bool>(FailedResultMessage.Exception);
             }
         }
 
@@ -108,7 +117,11 @@ namespace BoardProject.Domain.Services
 
             if (!validationResult.IsValid)
             {
-                return (IResult<ProjectResponse>)Result.Fail(validationResult.Errors.Select(val => val.ErrorMessage).ToList());
+                var errorMessages = validationResult.Errors.Select(val => val.ErrorMessage).ToList();
+                _logger.LogError($"Validation errors occurred in ProjectService.{nameof(EditProjectAsync)}: " +
+                    $"{string.Join(", ", errorMessages)}");
+
+                return Result.Fail<ProjectResponse>(FailedResultMessage.RequestValidation);
             }
 
             try
@@ -119,17 +132,18 @@ namespace BoardProject.Domain.Services
 
                 if (project is null)
                 {
-                    return (IResult<ProjectResponse>)Result.Fail(string.Format("Bad request for project entity with Id {0}", projectEntity.ProjectId));
+                    _logger.LogError($"Update data from ProjectService.{nameof(EditProjectAsync)} has failed.");
+                    return Result.Fail<ProjectResponse>(FailedResultMessage.Unprocessable);
                 }
 
                 await _projectRepository.UnitOfWork.SaveChangesAsync();
 
-                return (IResult<ProjectResponse>)Result.Ok(project.ToResponse);
+                return Result.Ok(project.ToResponse());
             }
             catch (Exception ex)
             {
-                _logger.LogError($"Exception was thrown from {nameof(EditProjectAsync)}");
-                return (IResult<ProjectResponse>)Result.Fail(ex.Message);
+                _logger.LogError($"ProjectService.{nameof(EditProjectAsync)} has failed with exception message: {ex.Message}");
+                return Result.Fail<ProjectResponse>(FailedResultMessage.Exception);
             }
         }
 
@@ -141,7 +155,11 @@ namespace BoardProject.Domain.Services
 
             if (!validationResult.IsValid)
             {
-                return (IResult<ProjectResponse>)Result.Fail(validationResult.Errors.Select(val => val.ErrorMessage).ToList());
+                var errorMessages = validationResult.Errors.Select(val => val.ErrorMessage).ToList();
+                _logger.LogError($"Validation errors occurred in ProjectService.{nameof(GetProjectAsync)}: " +
+                    $"{string.Join(", ", errorMessages)}");
+
+                return Result.Fail<ProjectResponse>(FailedResultMessage.RequestValidation);
             }
 
             try
@@ -152,7 +170,8 @@ namespace BoardProject.Domain.Services
 
                 if (project is null)
                 {
-                    return (IResult<ProjectResponse>)Result.Fail(string.Format("Bad request for project entity with Id {0}", projectEntity.ProjectId));
+                    _logger.LogInformation($"No data to fetch in ProjectService.{nameof(GetProjectAsync)}");
+                    return Result.Fail<ProjectResponse>(FailedResultMessage.NotFound);
                 }
 
                 var isEventSend = IsGetAllJobsByProjectIdEventSend(new GetJobsByProjectIdEvent { Id = projectEntity.ProjectId });
@@ -166,8 +185,8 @@ namespace BoardProject.Domain.Services
             }
             catch (Exception ex)
             {
-                _logger.LogError($"Exception was thrown from {nameof(GetProjectAsync)}");
-                return (IResult<ProjectResponse>)Result.Fail(ex.Message);
+                _logger.LogError($"ProjectService.{nameof(GetProjectAsync)} has failed: {ex.Message}");
+                return Result.Fail<ProjectResponse>(FailedResultMessage.Exception);
             }
         }
 
@@ -187,12 +206,12 @@ namespace BoardProject.Domain.Services
                 var model = new PaginatedEntityResponseModel<ProjectResponse>(
                     pageIndex, pageSize, totalProjects, projectsOnPage);
 
-                return (IResult<IEnumerable<ProjectResponse>>)Result.Ok(model);
+                return Result.Ok(model.Data);
             }
             catch (Exception ex)
             {
-                _logger.LogError($"Exception was thrown from {nameof(GetProjectsAsync)}");
-                return (IResult<IEnumerable<ProjectResponse>>)Result.Fail(ex.Message);
+                _logger.LogError($"ProjectService.{nameof(GetProjectsAsync)} has failed: {ex.Message}");
+                return Result.Fail<IEnumerable<ProjectResponse>>(FailedResultMessage.Exception);
             }
         }
 

@@ -2,6 +2,7 @@
 using BoardProject.Domain.DTOs.Requests.Project;
 using BoardProject.Domain.DTOs.Responses;
 using BoardProject.Domain.Entities;
+using FluentResults;
 
 namespace BoardProject.Domain.Mappers
 {
