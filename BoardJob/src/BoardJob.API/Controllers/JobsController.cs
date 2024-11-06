@@ -24,7 +24,7 @@ namespace BoardJob.Api.Controllers
         public async Task<IActionResult> GetJobById(Guid id)
         {
             var result = await _mediator.Send(new GetJobCommand { Id = id });
-            return Ok(result);
+            return new ObjectResult(result);
         }
 
         [HttpPost]
@@ -32,7 +32,7 @@ namespace BoardJob.Api.Controllers
         public async Task<IActionResult> PostJobAsync(CreateJobCommand request)
         {
             var result = await _mediator.Send(request);
-            return CreatedAtAction(nameof(GetJobById), new { id = result.Id }, null);
+            return CreatedAtAction(nameof(GetJobById), new { id = result.ValueOrDefault.Id }, null);
         }
 
         [HttpPut("{jobId:guid}")]
@@ -42,7 +42,7 @@ namespace BoardJob.Api.Controllers
             command.Id = jobId;
             var result = await _mediator.Send(command);
 
-            return Ok(result);
+            return new ObjectResult(result);
         }
 
         [HttpDelete("{jobId:guid}")]
@@ -54,7 +54,7 @@ namespace BoardJob.Api.Controllers
                 Id = jobId
             });
 
-            return Ok(result);
+            return new ObjectResult(result);
         }
 
         [HttpGet("")]
@@ -62,7 +62,7 @@ namespace BoardJob.Api.Controllers
         public async Task<IActionResult> GetAllJobsAsync()
         {
             var result = await _mediator.Send(new GetAllJobsCommand());
-            return Ok(result);
+            return new ObjectResult(result);
         }
 
         [HttpGet("{projectId:guid}/jobs")]
@@ -73,7 +73,7 @@ namespace BoardJob.Api.Controllers
             {
                 ProjectId = projectId
             });
-            return Ok(result);
+            return new ObjectResult(result);
         }
     }
 }

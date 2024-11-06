@@ -5,10 +5,12 @@ using MediatR;
 using BoardJob.Domain.Commands;
 using BoardJob.Domain.Handlers.Validators;
 using Microsoft.Extensions.Logging;
+using FluentResults;
+using BoardJob.Core;
 
 namespace BoardJob.Domain.Handlers
 {
-    public record DeleteJobHandler : IRequestHandler<DeleteJobCommand, bool>
+    public record DeleteJobHandler : IRequestHandler<DeleteJobCommand, IResult<bool>>
     {
         private readonly ILogger<DeleteJobHandler> _logger;
         private readonly IJobRepository _jobRepository;
@@ -19,23 +21,40 @@ namespace BoardJob.Domain.Handlers
             _logger = logger;
         }
 
-        public async Task<bool> Handle(DeleteJobCommand command, CancellationToken cancellationToken)
+        public async Task<IResult<bool>> Handle(DeleteJobCommand command, CancellationToken cancellationToken)
         {
             var validator = new DeleteJobCommandValidator();
             var validationResult = await validator.ValidateAsync(command, cancellationToken);
 
             if (!validationResult.IsValid)
             {
-                _logger.LogError(string.Format("Validation of command with Id {0} has failed", command.Id));
-                return false;
+                var errorMessages = validationResult.Errors.Select(val => val.ErrorMessage).ToList();
+                _logger.LogError($"Validation errors occurred in DeleteJobHandler.{nameof(Handle)}: " +
+                    $"{string.Join(", ", errorMessages)}");
+
+                return Result.Fail<bool>(FailedResultMessage.RequestValidation);
             }
 
             var entity = command.ToEntity();
-            var isJobDeleted = _jobRepository.DeleteJob(entity);
+            try
+            {
+                var isJobDeleted = _jobRepository.DeleteJob(entity);
 
-            await _jobRepository.UnitOfWork.SaveChangesAsync();
+                if (!isJobDeleted)
+                {
+                    _logger.LogError($"Delete data from DeleteJobHandler.{nameof(Handle)} has failed.");
+                    return Result.Fail<bool>(FailedResultMessage.NotFound);
+                }
 
-            return isJobDeleted;
+                await _jobRepository.UnitOfWork.SaveChangesAsync();
+
+                return Result.Ok(isJobDeleted);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"DeleteobHandler.{nameof(Handle)} has failed with exception message: {ex.Message}");
+                return Result.Fail<bool>(FailedResultMessage.Exception);
+            }
         }
     }
 }

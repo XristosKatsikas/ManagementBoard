@@ -1,10 +1,11 @@
 ﻿using BoardJob.Domain.DTOs.Responses;
 using BoardJob.Domain.Enums;
+using FluentResults;
 using MediatR;
 
 namespace BoardJob.Domain.Commands
 {
-    public record EditJobCommand : IRequest<JobResponse>
+    public record EditJobCommand : IRequest<IResult<JobResponse>>
     {
         public Guid Id { get; set; }
         public string Title { get; set; } = string.Empty;

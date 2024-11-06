@@ -44,9 +44,9 @@ namespace BoardJob.Domain.Mappers
             return Mapper.Map<IEnumerable<JobResponse>>(job);
         }
 
-        public static JobResponse EnumerableToResponse(this IEnumerable<Job> job)
+        public static IEnumerable<JobResponse> EnumerableToResponse(this IEnumerable<Job> job)
         {
-            return Mapper.Map<JobResponse>(job);
+            return Mapper.Map<IEnumerable<JobResponse>>(job);
         }
     }
 }
