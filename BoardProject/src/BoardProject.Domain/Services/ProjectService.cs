@@ -20,7 +20,7 @@ namespace BoardProject.Domain.Services
         private readonly ILogger<ProjectService> _logger;
         private readonly ConnectionFactory _eventBusConnectionFactory;
         private readonly EventBusSettings _settings;
-        private readonly Publisher _publisher;
+        private readonly RmqPublisher _publisher;
 
         public ProjectService(
             IProjectRepository projectRepository, 
@@ -32,7 +32,7 @@ namespace BoardProject.Domain.Services
             _logger = logger;
             _eventBusConnectionFactory = eventBusConnectionFactory;
             _settings = settings;
-            _publisher = new Publisher(settings, eventBusConnectionFactory);
+            _publisher = new RmqPublisher(settings, eventBusConnectionFactory);
         }
 
         public async Task<IResult<ProjectResponse>> AddProjectAsync(AddProjectRequest request)
@@ -149,7 +149,6 @@ namespace BoardProject.Domain.Services
 
         public async Task<IResult<ProjectResponse>> GetProjectAsync(GetProjectRequest request)
         {
-
             var validator = new GetProjectRequestValidator();
             var validationResult = await validator.ValidateAsync(request);
 
@@ -174,7 +173,7 @@ namespace BoardProject.Domain.Services
                     return Result.Fail<ProjectResponse>(FailedResultMessage.NotFound);
                 }
 
-                var isEventSend = IsGetAllJobsByProjectIdEventSend(new GetJobsByProjectIdEvent { Id = projectEntity.ProjectId });
+                var isEventSend = await IsGetAllJobsByProjectIdEventSendAsync(new GetJobsByProjectIdEvent { Id = projectEntity.ProjectId });
 
                 if(!isEventSend) 
                 {
@@ -215,11 +214,11 @@ namespace BoardProject.Domain.Services
             }
         }
 
-        private bool IsGetAllJobsByProjectIdEventSend(GetJobsByProjectIdEvent message)
+        private async Task<bool> IsGetAllJobsByProjectIdEventSendAsync(GetJobsByProjectIdEvent evt)
         {
             try
             {
-                _publisher.PublishMessage(message);
+                await _publisher.PublishAsync(evt);
                 return true;
             }
             catch (Exception e)

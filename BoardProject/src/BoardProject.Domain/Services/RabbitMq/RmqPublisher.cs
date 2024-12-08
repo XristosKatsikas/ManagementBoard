@@ -5,14 +5,14 @@ using System.Text;
 
 namespace BoardProject.Domain.Services.RabbitMq
 {
-    public class Publisher
+    public class RmqPublisher
     {
         private readonly IConnection _connection;
         private readonly IModel _channel;
         private readonly ConnectionFactory _eventBusConnectionFactory;
         private readonly EventBusSettings _settings;
 
-        public Publisher(EventBusSettings settings, ConnectionFactory eventBusConnectionFactory)
+        public RmqPublisher(EventBusSettings settings, ConnectionFactory eventBusConnectionFactory)
         {
             _settings = settings;
             _eventBusConnectionFactory = eventBusConnectionFactory;
@@ -21,11 +21,11 @@ namespace BoardProject.Domain.Services.RabbitMq
             _channel.QueueDeclare(queue: _settings.EventQueue, true, false);
         }
 
-        public void PublishMessage<T>(T message) where T : class
+        public async Task PublishAsync<T>(T @event) where T : class
         {
-            var body = Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(message));
+            var body = Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(@event));
             _channel.ConfirmSelect();
-            _channel.BasicPublish(exchange: "", routingKey: "", basicProperties: null, body: body);
+            await Task.Run(() => _channel.BasicPublish(exchange: "", routingKey: _settings.EventQueue, basicProperties: null, body: body));
             _channel.WaitForConfirmsOrDie();
         }
 

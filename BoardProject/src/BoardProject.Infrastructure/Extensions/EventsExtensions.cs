@@ -12,7 +12,7 @@ namespace BoardProject.Infrastructure.Extensions
             var config = new EventBusSettings();
             configuration.Bind("EventBus", config);
             services.AddSingleton(config);
-            ConnectionFactory factory = new ConnectionFactory
+            var factory = new ConnectionFactory
             {
                 HostName = config.HostName,
                 UserName = config.User,

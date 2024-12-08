@@ -31,19 +31,19 @@ namespace BoardJob.Infrastructure.RabbitMq
         {
             stoppingToken.ThrowIfCancellationRequested();
 
-            var consumer = new EventingBasicConsumer(_channel);
+            var consumer = new AsyncEventingBasicConsumer(_channel);
 
             consumer.Received += async (ch, ea) =>
             {
-                var content = Encoding.UTF8.GetString(ea.Body.ToArray());
-                var @event = JsonConvert.DeserializeObject<T>(content);
+                var message = Encoding.UTF8.GetString(ea.Body.ToArray());
+                var @event = JsonConvert.DeserializeObject<T>(message);
 
                 await _mediator.Send(@event!, stoppingToken);
                 _channel?.BasicAck(ea.DeliveryTag, false);
             };
 
             consumer.Model?.QueueDeclare(_settings.EventQueue, true, false);
-            _channel?.BasicConsume(_settings.EventQueue, false, consumer);
+            _channel?.BasicConsume(_settings.EventQueue, autoAck: true, consumer);
 
             return Task.CompletedTask;
         }
