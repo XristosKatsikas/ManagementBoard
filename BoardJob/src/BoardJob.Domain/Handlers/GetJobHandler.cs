@@ -2,11 +2,11 @@
 using BoardJob.Domain.Mappers;
 using BoardJob.Domain.Repositories.Abstractions;
 using MediatR;
-using BoardJob.Domain.Commands;
 using BoardJob.Domain.Handlers.Validators;
 using Microsoft.Extensions.Logging;
 using BoardJob.Core;
 using FluentResults;
+using BoardJob.Domain.Queries;
 
 namespace BoardJob.Domain.Handlers
 {

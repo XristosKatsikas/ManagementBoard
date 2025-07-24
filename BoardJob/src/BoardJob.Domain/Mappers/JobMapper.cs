@@ -2,6 +2,7 @@
 using BoardJob.Domain.Commands;
 using BoardJob.Domain.DTOs.Responses;
 using BoardJob.Domain.Entities;
+using BoardJob.Domain.Queries;
 
 namespace BoardJob.Domain.Mappers
 {

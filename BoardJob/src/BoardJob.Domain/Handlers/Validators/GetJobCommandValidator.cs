@@ -1,5 +1,5 @@
 ﻿using FluentValidation;
-using BoardJob.Domain.Commands;
+using BoardJob.Domain.Queries;
 
 namespace BoardJob.Domain.Handlers.Validators
 {

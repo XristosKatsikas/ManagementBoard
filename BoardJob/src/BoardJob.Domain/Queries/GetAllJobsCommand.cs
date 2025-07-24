@@ -2,7 +2,7 @@
 using FluentResults;
 using MediatR;
 
-namespace BoardJob.Domain.Commands
+namespace BoardJob.Domain.Queries
 {
     public record GetAllJobsCommand : IRequest<IResult<IEnumerable<JobResponse>>>
     {

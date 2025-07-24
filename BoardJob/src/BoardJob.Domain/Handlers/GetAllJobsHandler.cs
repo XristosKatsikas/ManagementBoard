@@ -1,7 +1,7 @@
 ﻿using BoardJob.Core;
-using BoardJob.Domain.Commands;
 using BoardJob.Domain.DTOs.Responses;
 using BoardJob.Domain.Mappers;
+using BoardJob.Domain.Queries;
 using BoardJob.Domain.Repositories.Abstractions;
 using FluentResults;
 using MediatR;

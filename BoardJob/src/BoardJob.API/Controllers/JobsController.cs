@@ -4,6 +4,7 @@ using BoardJob.Domain.Commands;
 using MediatR;
 using BoardJob.Domain.Events.Job;
 using BoardJob.API;
+using BoardJob.Domain.Queries;
 
 namespace BoardJob.Api.Controllers
 {
