@@ -3,9 +3,9 @@ using BoardJob.Domain.Queries;
 
 namespace BoardJob.Domain.Handlers.Validators
 {
-    public class GetJobCommandValidator : AbstractValidator<GetJobCommand>
+    public class GetJobQueryValidator : AbstractValidator<GetJobQuery>
     {
-        public GetJobCommandValidator()
+        public GetJobQueryValidator()
         {
             RuleFor(p => p.Id).NotEmpty();
         }

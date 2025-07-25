@@ -10,7 +10,7 @@ using BoardJob.Domain.Queries;
 
 namespace BoardJob.Domain.Handlers
 {
-    public record GetJobHandler : IRequestHandler<GetJobCommand, IResult<JobResponse>>
+    public record GetJobHandler : IRequestHandler<GetJobQuery, IResult<JobResponse>>
     {
         private readonly ILogger<GetJobHandler> _logger;
         private readonly IJobRepository _jobRepository;
@@ -21,10 +21,10 @@ namespace BoardJob.Domain.Handlers
             _logger = logger;
         }
 
-        public async Task<IResult<JobResponse>> Handle(GetJobCommand command, CancellationToken cancellationToken)
+        public async Task<IResult<JobResponse>> Handle(GetJobQuery query, CancellationToken cancellationToken)
         {
-            var validator = new GetJobCommandValidator();
-            var validationResult = await validator.ValidateAsync(command, cancellationToken);
+            var validator = new GetJobQueryValidator();
+            var validationResult = await validator.ValidateAsync(query, cancellationToken);
 
             if (!validationResult.IsValid)
             {
@@ -35,7 +35,7 @@ namespace BoardJob.Domain.Handlers
                 return Result.Fail<JobResponse>(FailedResultMessage.RequestValidation);
             }
 
-            var entity = command.ToEntity();
+            var entity = query.ToEntity();
             try
             {
                 var result = await _jobRepository.GetAsyncByJobId(entity.Id);

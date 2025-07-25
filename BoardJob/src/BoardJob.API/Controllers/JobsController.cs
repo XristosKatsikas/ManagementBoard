@@ -24,7 +24,7 @@ namespace BoardJob.Api.Controllers
         [ApiConventionMethod(typeof(ApiConvention), nameof(DefaultApiConventions.Get))]
         public async Task<IActionResult> GetJobById(Guid id)
         {
-            var result = await _mediator.Send(new GetJobCommand { Id = id });
+            var result = await _mediator.Send(new GetJobQuery { Id = id });
             return new ObjectResult(result);
         }
 
@@ -62,7 +62,7 @@ namespace BoardJob.Api.Controllers
         [ApiConventionMethod(typeof(ApiConvention), nameof(DefaultApiConventions.Get))]
         public async Task<IActionResult> GetAllJobsAsync()
         {
-            var result = await _mediator.Send(new GetAllJobsCommand());
+            var result = await _mediator.Send(new GetAllJobsQuery());
             return new ObjectResult(result);
         }
 

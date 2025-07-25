@@ -4,8 +4,7 @@ using MediatR;
 
 namespace BoardJob.Domain.Queries
 {
-    public record GetJobCommand : IRequest<IResult<JobResponse>>
+    public record GetAllJobsQuery : IRequest<IResult<IEnumerable<JobResponse>>>
     {
-        public Guid Id { get; set; }
     }
 }

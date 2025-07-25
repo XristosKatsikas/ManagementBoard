@@ -31,7 +31,7 @@ namespace BoardJob.Domain.Mappers
                 .ForMember(dst => dst.Id, opt => opt.MapFrom(src => src.Id))
                 .ReverseMap();
 
-            CreateMap<GetJobCommand, Job>()
+            CreateMap<GetJobQuery, Job>()
                .ForMember(dst => dst.Id, opt => opt.MapFrom(src => src.Id))
                .ReverseMap();
 

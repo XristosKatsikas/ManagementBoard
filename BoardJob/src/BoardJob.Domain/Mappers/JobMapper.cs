@@ -25,9 +25,9 @@ namespace BoardJob.Domain.Mappers
             return Mapper.Map<Job>(command);
         }
 
-        public static Job ToEntity(this GetJobCommand command)
+        public static Job ToEntity(this GetJobQuery query)
         {
-            return Mapper.Map<Job>(command);
+            return Mapper.Map<Job>(query);
         }
 
         public static Job ToEntity(this DeleteJobCommand command)

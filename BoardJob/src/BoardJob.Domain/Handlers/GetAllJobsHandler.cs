@@ -10,7 +10,7 @@ using Microsoft.Extensions.Logging;
 
 namespace BoardJob.Domain.Handlers
 {
-    public record GetAllJobsHandler : IRequestHandler<GetAllJobsCommand, IResult<IEnumerable<JobResponse>>>
+    public record GetAllJobsHandler : IRequestHandler<GetAllJobsQuery, IResult<IEnumerable<JobResponse>>>
     {
         private readonly ILogger<GetAllJobsHandler> _logger;
         private readonly IJobRepository _jobRepository;
@@ -23,14 +23,13 @@ namespace BoardJob.Domain.Handlers
             _logger = logger;
         }
 
-        public async Task<IResult<IEnumerable<JobResponse>>> Handle(GetAllJobsCommand command, CancellationToken cancellationToken)
+        public async Task<IResult<IEnumerable<JobResponse>>> Handle(GetAllJobsQuery query, CancellationToken cancellationToken)
         {
             try
             {
                 var getJobs = await _jobRepository.GetAllJobsAsync();
-                var totalJobs = getJobs.Count();
 
-                if (totalJobs == 0)
+                if (!getJobs.Any())
                 {
                     _logger.LogInformation($"No data to fetch in GetAllJobsHandler.{nameof(Handle)}");
                     return Result.Fail<IEnumerable<JobResponse>>(FailedResultMessage.NotFound);
