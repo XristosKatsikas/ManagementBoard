@@ -38,7 +38,8 @@ namespace BoardJob.Infrastructure.BackgroundServices
             }
             catch (Exception e)
             {
-                _logger.LogWarning("Unable to consume the event bus: {message}", e.Message);
+                _logger.LogError("Unable to consume the event bus: {message}", e.Message);
+                throw;
             }
 
             return Task.CompletedTask;
