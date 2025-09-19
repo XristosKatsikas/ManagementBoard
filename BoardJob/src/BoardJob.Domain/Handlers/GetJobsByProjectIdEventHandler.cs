@@ -1,10 +1,12 @@
-﻿using BoardJob.Domain.Events.Job;
+﻿using BoardJob.Domain.DTOs.Responses;
+using BoardJob.Domain.Enums;
+using BoardJob.Domain.Events.Job;
 using BoardJob.Domain.Repositories.Abstractions;
 using MediatR;
 
 namespace BoardJob.Domain.Handlers
 {
-    public record GetJobsByProjectIdEventHandler : IRequestHandler<GetJobsByProjectIdEvent, Unit>
+    public class GetJobsByProjectIdEventHandler : IRequestHandler<GetJobsByProjectIdEvent, IEnumerable<JobResponse>>
     {
         private readonly IJobRepository _jobRepository;
         public GetJobsByProjectIdEventHandler(IJobRepository jobRepository)
@@ -12,17 +14,19 @@ namespace BoardJob.Domain.Handlers
             _jobRepository = jobRepository;
         }
 
-        public async Task<Unit> Handle(GetJobsByProjectIdEvent @event, CancellationToken cancellationToken)
+        public async Task<IEnumerable<JobResponse>> Handle(GetJobsByProjectIdEvent @event, CancellationToken cancellationToken)
         {
-            var jobs = await _jobRepository.GetAllJobsAsync();
-            var jobIds = jobs.ToList();
-            var jobsByProjectId = jobIds.Select(async x =>
+            var jobs = await _jobRepository.GetAllJobsByProjectIdAsync(@event.ProjectId);
+            return jobs.Select(job => new JobResponse
             {
-                await _jobRepository.GetAllJobsByProjectIdAsync(@event.ProjectId);
-            });
-
-            await Task.WhenAll(jobsByProjectId);
-            return Unit.Value;
+                Title = job.Title,
+                Description = job.Description,
+                Status = job.Status,
+                Progress = job.Progress,
+                StartDate = job.StartDate,
+                FinishDate = job.FinishDate, 
+                ProjectId = job.ProjectId
+            }).ToList();
         }
     }
 }

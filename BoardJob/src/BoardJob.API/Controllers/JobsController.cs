@@ -9,7 +9,7 @@ using BoardJob.Domain.Queries;
 namespace BoardJob.Api.Controllers
 {
     [ApiController]
-    [Route("/[controller]/")]
+    [Route("api/[controller]/")]
     [Authorize]
     public class JobsController : ControllerBase
     {

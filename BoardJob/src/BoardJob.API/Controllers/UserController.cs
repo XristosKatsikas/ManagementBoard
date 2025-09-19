@@ -7,7 +7,7 @@ using System.Security.Claims;
 namespace BoardJob.API.Controllers
 {
     [ApiController]
-    [Route("/[controller]/")]
+    [Route("api/[controller]/")]
     [Authorize]
     public class UserController : ControllerBase
     {
@@ -25,7 +25,7 @@ namespace BoardJob.API.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpGet]
-        public async Task<IActionResult> Get()
+        public async Task<IActionResult> GetUserDataAsync()
         {
             var claim = HttpContext.User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.Email);
 
@@ -34,8 +34,8 @@ namespace BoardJob.API.Controllers
                 return Unauthorized();
             }
 
-            var token = await _userService.GetUserAsync(new GetUserRequest { Email = claim.Value });
-            return Ok(token);
+            var userData = await _userService.GetUserAsync(new GetUserRequest { Email = claim.Value });
+            return Ok(userData);
         }
 
         /// <summary>
@@ -46,7 +46,7 @@ namespace BoardJob.API.Controllers
         /// <returns></returns>
         [AllowAnonymous]
         [HttpPost("sign-in")]
-        public async Task<IActionResult> SignIn(SignInRequest request)
+        public async Task<IActionResult> SignInAsync(SignInRequest request)
         {
             var token = await _userService.SignInAsync(request);
 
@@ -64,16 +64,16 @@ namespace BoardJob.API.Controllers
         /// <returns></returns>
         [AllowAnonymous] // Allowed to call the action method without being authenticated
         [HttpPost("sign-up")]
-        public async Task<IActionResult> SignUp(SignUpRequest request)
+        public async Task<IActionResult> SignUpAsync(SignUpRequest request)
         {
             var user = await _userService.SignUpAsync(request);
 
             if (user == null) return BadRequest();
-            return CreatedAtAction(nameof(Get), new { }, null);
+            return CreatedAtAction(nameof(GetUserDataAsync), new { }, null);
         }
 
         [HttpDelete]
-        public async Task<IActionResult> DeleteUser(DeleteUserRequest request)
+        public async Task<IActionResult> DeleteUserAsync(DeleteUserRequest request)
         {
             var isUserDeleted = await _userService.DeleteUserAsync(request);
 
