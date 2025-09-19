@@ -51,7 +51,7 @@ namespace BoardProject.Domain.Services
 
             try
             {
-                var projectEntity = ProjectMapper.ToEntity(request);
+                var projectEntity = request.ToEntity();
 
                 var project = _projectRepository.AddProject(projectEntity);
 
@@ -88,7 +88,7 @@ namespace BoardProject.Domain.Services
 
             try
             {
-                var projectEntity = ProjectMapper.ToEntity(request);
+                var projectEntity = request.ToEntity();
 
                 var isProjectDeleted = _projectRepository.DeleteProject(projectEntity);
 
@@ -126,7 +126,7 @@ namespace BoardProject.Domain.Services
 
             try
             {
-                var projectEntity = ProjectMapper.ToEntity(request);
+                var projectEntity = request.ToEntity();
 
                 var project = _projectRepository.UpdateProject(projectEntity);
 
@@ -163,7 +163,7 @@ namespace BoardProject.Domain.Services
 
             try
             {
-                var projectEntity = ProjectMapper.ToEntity(request);
+                var projectEntity = request.ToEntity();
 
                 var project = await _projectRepository.GetAsyncByProjectId(projectEntity.ProjectId);
 
@@ -177,10 +177,10 @@ namespace BoardProject.Domain.Services
 
                 if(!isEventSend) 
                 {
-                    return (IResult<ProjectResponse>)Result.Fail($"Event not send from {nameof(GetProjectAsync)}");
+                    return Result.Fail<ProjectResponse>($"Event not send from {nameof(GetProjectAsync)}");
                 }
 
-                return (IResult<ProjectResponse>)Result.Ok(project.ToResponse);
+                return Result.Ok(project.ToResponse());
             }
             catch (Exception ex)
             {
