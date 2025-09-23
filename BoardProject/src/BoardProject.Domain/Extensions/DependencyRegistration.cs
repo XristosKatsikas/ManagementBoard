@@ -1,5 +1,6 @@
 ﻿using BoardProject.Domain.Services;
 using BoardProject.Domain.Services.Abstractions;
+using BoardProject.Domain.Services.RabbitMq;
 using Microsoft.Extensions.DependencyInjection;
 
 
@@ -11,7 +12,8 @@ namespace BoardProject.Domain.Extensions
         {
             services
                 .AddScoped<IProjectService, ProjectService>()
-                .AddScoped<IUserService, UserService>();
+                .AddScoped<IUserService, UserService>()
+                .AddSingleton<RmqPublisher>();
 
             return services;
         }
