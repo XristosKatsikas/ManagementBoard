@@ -3,6 +3,7 @@ using Newtonsoft.Json;
 using RabbitMQ.Client;
 using System.Collections.Concurrent;
 using System.Text;
+using System.Threading.Channels;
 
 namespace BoardProject.Domain.Services.RabbitMq
 {
@@ -54,12 +55,16 @@ namespace BoardProject.Domain.Services.RabbitMq
 
             var deliveryTag = _channel.NextPublishSeqNo;
 
+            var basicProperties = _channel.CreateBasicProperties();
+            basicProperties.CorrelationId = Guid.NewGuid().ToString();
+            basicProperties.ReplyTo = _settings.EventQueue;
+
             // Store message and confirmation task
             _unconfirmedMessages.TryAdd(deliveryTag, @event!);
             _pendingConfirms.TryAdd(deliveryTag, tcs);
 
             // Publish message
-            _channel.BasicPublish(exchange: _settings.Fanout, routingKey: "", basicProperties: null, body: body);
+            _channel.BasicPublish(exchange: _settings.Fanout, routingKey: "", basicProperties: basicProperties, body: body);
 
             // Await broker confirmation
             await tcs.Task;
