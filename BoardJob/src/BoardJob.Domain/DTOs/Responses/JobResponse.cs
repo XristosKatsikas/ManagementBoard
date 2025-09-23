@@ -1,5 +1,4 @@
-﻿using BoardJob.Domain.Entities;
-using BoardJob.Domain.Enums;
+﻿using BoardJob.Domain.Enums;
 
 namespace BoardJob.Domain.DTOs.Responses
 {

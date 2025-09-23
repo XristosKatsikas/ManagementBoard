@@ -9,5 +9,7 @@
         public decimal Progress { get; set; }
         public DateTime StartDate { get; set; }
         public DateTime FinishDate { get; set; }
+
+        public IEnumerable<JobResponse> JobsByProductId { get; set; } = Array.Empty<JobResponse>();
     }
 }

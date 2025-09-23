@@ -1,9 +1,10 @@
 ﻿using BoardProject.Domain.Configurations;
-using Newtonsoft.Json;
+using BoardProject.Domain.DTOs.Responses;
 using RabbitMQ.Client;
+using RabbitMQ.Client.Events;
+using System.Text.Json;
 using System.Collections.Concurrent;
 using System.Text;
-using System.Threading.Channels;
 
 namespace BoardProject.Domain.Services.RabbitMq
 {
@@ -28,46 +29,55 @@ namespace BoardProject.Domain.Services.RabbitMq
             _channel.ConfirmSelect();
 
             // Handle ACKs
-            _channel.BasicAcks += (sender, ea) =>
-            {
-                if (_pendingConfirms.TryRemove(ea.DeliveryTag, out var tcs))
-                {
-                    tcs.TrySetResult(true); // Confirmed
-                    _unconfirmedMessages.TryRemove(ea.DeliveryTag, out _);
-                }
-            };
+            //_channel.BasicAcks += (sender, ea) =>
+            //{
+            //    if (_pendingConfirms.TryRemove(ea.DeliveryTag, out var tcs))
+            //    {
+            //        tcs.TrySetResult(true); // Confirmed
+            //        _unconfirmedMessages.TryRemove(ea.DeliveryTag, out _);
+            //    }
+            //};
 
-            // Handle NACKs
-            _channel.BasicNacks += (sender, ea) =>
-            {
-                if (_pendingConfirms.TryRemove(ea.DeliveryTag, out var tcs))
-                {
-                    tcs.TrySetException(new Exception("Message was NACKed by broker."));
-                    _unconfirmedMessages.TryRemove(ea.DeliveryTag, out _);
-                }
-            };
+            //// Handle NACKs
+            //_channel.BasicNacks += (sender, ea) =>
+            //{
+            //    if (_pendingConfirms.TryRemove(ea.DeliveryTag, out var tcs))
+            //    {
+            //        tcs.TrySetException(new Exception("Message was NACKed by broker."));
+            //        _unconfirmedMessages.TryRemove(ea.DeliveryTag, out _);
+            //    }
+            //};
         }
 
-        public async Task PublishAsync<T>(T @event) where T : class
+        public async Task<T> PublishAsync<T>(object @event) where T : class
         {
-            var body = Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(@event));
-            var tcs = new TaskCompletionSource<bool>(TaskCreationOptions.RunContinuationsAsynchronously);
+            var consumer = new EventingBasicConsumer(_channel);
+            var tcs = new TaskCompletionSource<T>(TaskCreationOptions.RunContinuationsAsynchronously);
+            var correlationId = Guid.NewGuid().ToString();
 
-            var deliveryTag = _channel.NextPublishSeqNo;
+            consumer.Received += (model, ea) =>
+            {
+                var body = ea.Body.ToArray();
+                var responseString = Encoding.UTF8.GetString(body);
+                if (ea.BasicProperties.CorrelationId == correlationId)
+                {
+                    var data = JsonSerializer.Deserialize<T>(responseString);
+                    tcs.SetResult(data!);
+                }
+            };
 
-            var basicProperties = _channel.CreateBasicProperties();
-            basicProperties.CorrelationId = Guid.NewGuid().ToString();
-            basicProperties.ReplyTo = _settings.EventQueue;
-
+            // var deliveryTag = _channel.NextPublishSeqNo;
             // Store message and confirmation task
-            _unconfirmedMessages.TryAdd(deliveryTag, @event!);
-            _pendingConfirms.TryAdd(deliveryTag, tcs);
+            //_unconfirmedMessages.TryAdd(deliveryTag, @event!);
+            //_pendingConfirms.TryAdd(deliveryTag, tcs);
 
-            // Publish message
-            _channel.BasicPublish(exchange: _settings.Fanout, routingKey: "", basicProperties: basicProperties, body: body);
+            var messageBody = Encoding.UTF8.GetBytes(JsonSerializer.Serialize(@event));
+            var basicProperties = _channel.CreateBasicProperties();
+            basicProperties.CorrelationId = correlationId;
+            basicProperties.ReplyTo = _settings.EventQueue;
+            _channel.BasicPublish(exchange: _settings.Fanout, routingKey: "", basicProperties: basicProperties, body: messageBody);
 
-            // Await broker confirmation
-            await tcs.Task;
+            return await tcs.Task;
         }
 
         public void Dispose()

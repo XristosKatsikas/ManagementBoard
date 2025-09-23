@@ -2,6 +2,6 @@
 {
     public interface IRmqPublisher : IDisposable
     {
-        Task PublishAsync<T>(T @event) where T : class;
+        Task<T> PublishAsync<T>(object @event) where T : class;
     }
 }

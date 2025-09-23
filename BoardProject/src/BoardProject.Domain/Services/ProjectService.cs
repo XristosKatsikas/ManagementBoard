@@ -169,12 +169,14 @@ namespace BoardProject.Domain.Services
                     return Result.Fail<ProjectResponse>(FailedResultMessage.NotFound);
                 }
 
-                var isEventSend = await IsGetAllJobsByProjectIdEventSendAsync(new GetJobsByProjectIdEvent { Id = projectEntity.ProjectId });
+                var getJobsByProjectId = await GetAllJobsByProjectIdEventAsync(new GetJobsByProjectIdEvent { Id = projectEntity.ProjectId });
 
-                if(!isEventSend) 
+                if(!getJobsByProjectId.Any()) 
                 {
                     return Result.Fail<ProjectResponse>($"Event not send from {nameof(GetProjectAsync)}");
                 }
+
+                //ToDo: i need to map the getJobsByProjectId to the project property list before i return
 
                 return Result.Ok(project.ToResponse());
             }
@@ -210,19 +212,19 @@ namespace BoardProject.Domain.Services
             }
         }
 
-        private async Task<bool> IsGetAllJobsByProjectIdEventSendAsync(GetJobsByProjectIdEvent evt)
+        private async Task<IEnumerable<JobResponse>> GetAllJobsByProjectIdEventAsync(GetJobsByProjectIdEvent evt)
         {
             using var scope = _serviceProvider.CreateScope();
             var publisher = scope.ServiceProvider.GetRequiredService<IRmqPublisher>();
             try
             {
-                await publisher.PublishAsync(evt);
-                return true;
+                var response = await publisher.PublishAsync<IEnumerable<JobResponse>>(evt);
+                return response;
             }
-            catch (Exception e)
+            catch (Exception ex)
             {
-                _logger.LogError("Unable to initialize the event bus: {0}", e.Message);
-                return false;
+                _logger.LogError("Unable to retrieve jobs: {0}", ex.Message);
+                return [];
             }
         }
     }

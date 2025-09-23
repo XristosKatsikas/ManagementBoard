@@ -19,6 +19,8 @@ namespace BoardJob.Infrastructure.RabbitMq
             _settings = settings;
             _connection = factory.CreateConnection();
             _mediator = mediator;
+            _channel = _connection.CreateModel();
+            _channel.QueueDeclare(_settings.EventQueue, durable: false, exclusive: false, autoDelete: false);
         }
 
         public async Task ExecuteAsync<T>(CancellationToken stoppingToken) where T : class
@@ -51,7 +53,7 @@ namespace BoardJob.Infrastructure.RabbitMq
                         var basicProperties = _channel?.CreateBasicProperties();
                         basicProperties!.CorrelationId = replyProps.CorrelationId;
 
-                        //If the message expects a reply (based on ReplyTo property),
+                        // If the message expects a reply (based on ReplyTo property),
                         // you send the reply by calling BasicPublish() inside the handler.
                         // You publish the reply to the exchange / queue specified in ea.BasicProperties.ReplyTo.
                         _channel?.BasicPublish(exchange: _settings.Fanout, routingKey: "", basicProperties: basicProperties, body: body);
@@ -70,7 +72,6 @@ namespace BoardJob.Infrastructure.RabbitMq
                 // ToDo: Ensure you handle message retries and dead-lettering if messages repeatedly fail.
             };
 
-            _channel.QueueDeclare(_settings.EventQueue, true, false);
             _channel.BasicConsume(_settings.EventQueue, autoAck: false, consumer);
 
             await Task.CompletedTask; // Keep the consumer alive
