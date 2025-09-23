@@ -13,7 +13,7 @@ namespace BoardProject.Domain.Extensions
             services
                 .AddScoped<IProjectService, ProjectService>()
                 .AddScoped<IUserService, UserService>()
-                .AddSingleton<RmqPublisher>();
+                .AddSingleton<IMessagePublisher, RmqPublisher>();
 
             return services;
         }

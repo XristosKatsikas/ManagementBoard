@@ -9,6 +9,7 @@ using BoardProject.Domain.Repositories.Abstractions;
 using BoardProject.Domain.Services.Abstractions;
 using BoardProject.Domain.Services.RabbitMq;
 using FluentResults;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using RabbitMQ.Client;
 
@@ -18,21 +19,16 @@ namespace BoardProject.Domain.Services
     {
         private readonly IProjectRepository _projectRepository;
         private readonly ILogger<ProjectService> _logger;
-        private readonly ConnectionFactory _eventBusConnectionFactory;
-        private readonly EventBusSettings _settings;
-        private readonly RmqPublisher _publisher;
+        private readonly IServiceProvider _serviceProvider;
 
         public ProjectService(
-            IProjectRepository projectRepository, 
-            ILogger<ProjectService> logger, 
-            ConnectionFactory eventBusConnectionFactory, 
-            EventBusSettings settings)
+            IProjectRepository projectRepository,
+            ILogger<ProjectService> logger,
+            IServiceProvider serviceProvider)
         {
             _projectRepository = projectRepository;
             _logger = logger;
-            _eventBusConnectionFactory = eventBusConnectionFactory;
-            _settings = settings;
-            _publisher = new RmqPublisher(settings, eventBusConnectionFactory);
+            _serviceProvider = serviceProvider;
         }
 
         public async Task<IResult<ProjectResponse>> AddProjectAsync(AddProjectRequest request)
@@ -216,16 +212,18 @@ namespace BoardProject.Domain.Services
 
         private async Task<bool> IsGetAllJobsByProjectIdEventSendAsync(GetJobsByProjectIdEvent evt)
         {
+            using var scope = _serviceProvider.CreateScope();
+            var publisher = scope.ServiceProvider.GetRequiredService<IMessagePublisher>();
             try
             {
-                await _publisher.PublishAsync(evt);
+                await publisher.PublishAsync(evt);
                 return true;
             }
             catch (Exception e)
             {
-                _logger.LogWarning("Unable to initialize the event bus: { message}", e.Message);
+                _logger.LogError("Unable to initialize the event bus: {0}", e.Message);
+                return false;
             }
-            return false;
         }
     }
 }

@@ -1,54 +1,68 @@
 ﻿using BoardProject.Domain.Configurations;
 using Newtonsoft.Json;
 using RabbitMQ.Client;
+using System.Collections.Concurrent;
 using System.Text;
 
 namespace BoardProject.Domain.Services.RabbitMq
 {
-    public class RmqPublisher
+    public class RmqPublisher : IMessagePublisher
     {
         private readonly IConnection _connection;
         private readonly IModel _channel;
-        private readonly ConnectionFactory _eventBusConnectionFactory;
+        private readonly ConcurrentDictionary<ulong, object> _unconfirmedMessages = new ConcurrentDictionary<ulong, object>();
+        private readonly ConcurrentDictionary<ulong, TaskCompletionSource<bool>> _pendingConfirms = new ConcurrentDictionary<ulong, TaskCompletionSource<bool>>();
         private readonly EventBusSettings _settings;
-
-        private const string fanoutExchange = "fanout";
 
         public RmqPublisher(EventBusSettings settings, ConnectionFactory eventBusConnectionFactory)
         {
-            _settings = settings;
-            _eventBusConnectionFactory = eventBusConnectionFactory;
-            _connection = _eventBusConnectionFactory.CreateConnection();
+            _connection = eventBusConnectionFactory.CreateConnection();
             _channel = _connection.CreateModel();
-            // Declare the fanout exchange if not exists
-            _channel.ExchangeDeclare(exchange: fanoutExchange, type: ExchangeType.Fanout);
+            _settings = settings;
+
+            // Declare exchange
+            _channel.ExchangeDeclare(exchange: _settings.Fanout, type: ExchangeType.Fanout);
+
             // Enable publisher confirms
             _channel.ConfirmSelect();
+
+            // Handle ACKs
+            _channel.BasicAcks += (sender, ea) =>
+            {
+                if (_pendingConfirms.TryRemove(ea.DeliveryTag, out var tcs))
+                {
+                    tcs.TrySetResult(true); // Confirmed
+                    _unconfirmedMessages.TryRemove(ea.DeliveryTag, out _);
+                }
+            };
+
+            // Handle NACKs
+            _channel.BasicNacks += (sender, ea) =>
+            {
+                if (_pendingConfirms.TryRemove(ea.DeliveryTag, out var tcs))
+                {
+                    tcs.TrySetException(new Exception("Message was NACKed by broker."));
+                    _unconfirmedMessages.TryRemove(ea.DeliveryTag, out _);
+                }
+            };
         }
 
-        public async Task PublishAsync<T>(T @event) where T : class
+        public async Task PublishAsync<T>(T @event)
         {
             var body = Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(@event));
+            var tcs = new TaskCompletionSource<bool>(TaskCreationOptions.RunContinuationsAsynchronously);
 
-            await Task.Run(() =>
-            {
-                _channel.BasicPublish(
-                    exchange: fanoutExchange,
-                    routingKey: "",
-                    basicProperties: null,
-                    body: body);
-            });
+            var deliveryTag = _channel.NextPublishSeqNo;
 
-            // Wait for confirmation
-            try
-            {
-                _channel.WaitForConfirmsOrDie();
-            }
-            catch (Exception ex)
-            {
-                // Handle exception (logging, retries, etc.)
-                throw new ApplicationException("Message publish failed.", ex);
-            }
+            // Store message and confirmation task
+            _unconfirmedMessages.TryAdd(deliveryTag, @event!);
+            _pendingConfirms.TryAdd(deliveryTag, tcs);
+
+            // Publish message
+            _channel.BasicPublish(exchange: _settings.Fanout, routingKey: "", basicProperties: null, body: body);
+
+            // Await broker confirmation
+            await tcs.Task;
         }
 
         public void Dispose()
