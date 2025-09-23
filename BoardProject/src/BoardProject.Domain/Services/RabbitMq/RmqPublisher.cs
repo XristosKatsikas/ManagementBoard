@@ -6,7 +6,7 @@ using System.Text;
 
 namespace BoardProject.Domain.Services.RabbitMq
 {
-    public class RmqPublisher : IMessagePublisher
+    public class RmqPublisher : IRmqPublisher
     {
         private readonly IConnection _connection;
         private readonly IModel _channel;
@@ -47,7 +47,7 @@ namespace BoardProject.Domain.Services.RabbitMq
             };
         }
 
-        public async Task PublishAsync<T>(T @event)
+        public async Task PublishAsync<T>(T @event) where T : class
         {
             var body = Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(@event));
             var tcs = new TaskCompletionSource<bool>(TaskCreationOptions.RunContinuationsAsynchronously);
@@ -67,8 +67,11 @@ namespace BoardProject.Domain.Services.RabbitMq
 
         public void Dispose()
         {
-            _channel.Dispose();
-            _connection.Dispose();
+            _channel?.Close();
+            _connection?.Close();
+            _channel?.Dispose();
+            _connection?.Dispose();
+            GC.SuppressFinalize(this);
         }
     }
 }

@@ -15,7 +15,7 @@ namespace BoardJob.Infrastructure.BackgroundServices
         private readonly EventBusSettings _settings;
         private readonly IModel? _channel;
 
-        private readonly Consumer _consumer;
+        private readonly RmqConsumer _consumer;
 
         public GetJobsByProjectIdEventBackgroundService(
             IMediator mediator,
@@ -27,22 +27,20 @@ namespace BoardJob.Infrastructure.BackgroundServices
             _logger = logger;
             _mediator = mediator;
 
-            _consumer = new Consumer(mediator, settings, factory);
+            _consumer = new RmqConsumer(mediator, settings, factory);
         }
 
-        protected override Task ExecuteAsync(CancellationToken stoppingToken)
+        protected override async Task ExecuteAsync(CancellationToken stoppingToken)
         {
             try
             {
-                _consumer.ExecuteAsync<GetJobsByProjectIdEvent>(stoppingToken);
+                await _consumer.ExecuteAsync<GetJobsByProjectIdEvent>(stoppingToken);
             }
             catch (Exception e)
             {
                 _logger.LogError("Unable to consume the event bus: {message}", e.Message);
                 throw;
             }
-
-            return Task.CompletedTask;
         }
     }
 }

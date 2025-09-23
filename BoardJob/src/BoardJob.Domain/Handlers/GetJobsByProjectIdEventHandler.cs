@@ -1,5 +1,4 @@
 ﻿using BoardJob.Domain.DTOs.Responses;
-using BoardJob.Domain.Enums;
 using BoardJob.Domain.Events.Job;
 using BoardJob.Domain.Repositories.Abstractions;
 using MediatR;

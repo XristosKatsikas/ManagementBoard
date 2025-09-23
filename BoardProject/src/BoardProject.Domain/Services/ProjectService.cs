@@ -213,7 +213,7 @@ namespace BoardProject.Domain.Services
         private async Task<bool> IsGetAllJobsByProjectIdEventSendAsync(GetJobsByProjectIdEvent evt)
         {
             using var scope = _serviceProvider.CreateScope();
-            var publisher = scope.ServiceProvider.GetRequiredService<IMessagePublisher>();
+            var publisher = scope.ServiceProvider.GetRequiredService<IRmqPublisher>();
             try
             {
                 await publisher.PublishAsync(evt);

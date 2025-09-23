@@ -48,6 +48,8 @@ builder.Services.AddFluentValidationAutoValidation().AddFluentValidationClientsi
 builder.Services.AddEventBus(builder.Configuration);
 builder.Services.AddTokenAuthentication(builder.Configuration);
 
+builder.Services.AddRmqServices();
+
 builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly()));
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 builder.Services.AddHostedService<GetJobsByProjectIdEventBackgroundService>();
