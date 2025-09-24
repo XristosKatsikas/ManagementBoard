@@ -178,7 +178,7 @@ namespace BoardProject.Domain.Services
 
                 var projectResponse = project.ToResponse();
 
-                projectResponse.JobsByProductId = getJobsByProjectId;
+                projectResponse.JobsByProjectId = getJobsByProjectId;
 
                 return Result.Ok(projectResponse);
             }

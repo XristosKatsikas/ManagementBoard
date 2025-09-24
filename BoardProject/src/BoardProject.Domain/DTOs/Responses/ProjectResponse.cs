@@ -10,6 +10,6 @@
         public DateTime StartDate { get; set; }
         public DateTime FinishDate { get; set; }
 
-        public IEnumerable<JobResponse> JobsByProductId { get; set; } = Array.Empty<JobResponse>();
+        public IEnumerable<JobResponse> JobsByProjectId { get; set; } = Array.Empty<JobResponse>();
     }
 }
