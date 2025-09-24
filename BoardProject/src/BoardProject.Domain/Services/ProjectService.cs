@@ -176,9 +176,11 @@ namespace BoardProject.Domain.Services
                     return Result.Fail<ProjectResponse>($"Event not send from {nameof(GetProjectAsync)}");
                 }
 
-                //ToDo: i need to map the getJobsByProjectId to the project property list before i return
+                var projectResponse = project.ToResponse();
 
-                return Result.Ok(project.ToResponse());
+                projectResponse.JobsByProductId = getJobsByProjectId;
+
+                return Result.Ok(projectResponse);
             }
             catch (Exception ex)
             {
@@ -218,8 +220,7 @@ namespace BoardProject.Domain.Services
             var publisher = scope.ServiceProvider.GetRequiredService<IRmqPublisher>();
             try
             {
-                var response = await publisher.PublishAsync<IEnumerable<JobResponse>>(evt);
-                return response;
+                return await publisher.PublishAsync<IEnumerable<JobResponse>>(evt);
             }
             catch (Exception ex)
             {

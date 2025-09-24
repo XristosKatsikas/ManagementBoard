@@ -1,9 +1,7 @@
 ﻿using BoardProject.Domain.Configurations;
-using BoardProject.Domain.DTOs.Responses;
 using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
 using System.Text.Json;
-using System.Collections.Concurrent;
 using System.Text;
 
 namespace BoardProject.Domain.Services.RabbitMq
@@ -12,8 +10,6 @@ namespace BoardProject.Domain.Services.RabbitMq
     {
         private readonly IConnection _connection;
         private readonly IModel _channel;
-        private readonly ConcurrentDictionary<ulong, object> _unconfirmedMessages = new ConcurrentDictionary<ulong, object>();
-        private readonly ConcurrentDictionary<ulong, TaskCompletionSource<bool>> _pendingConfirms = new ConcurrentDictionary<ulong, TaskCompletionSource<bool>>();
         private readonly EventBusSettings _settings;
 
         public RmqPublisher(EventBusSettings settings, ConnectionFactory eventBusConnectionFactory)
@@ -27,26 +23,6 @@ namespace BoardProject.Domain.Services.RabbitMq
 
             // Enable publisher confirms
             _channel.ConfirmSelect();
-
-            // Handle ACKs
-            //_channel.BasicAcks += (sender, ea) =>
-            //{
-            //    if (_pendingConfirms.TryRemove(ea.DeliveryTag, out var tcs))
-            //    {
-            //        tcs.TrySetResult(true); // Confirmed
-            //        _unconfirmedMessages.TryRemove(ea.DeliveryTag, out _);
-            //    }
-            //};
-
-            //// Handle NACKs
-            //_channel.BasicNacks += (sender, ea) =>
-            //{
-            //    if (_pendingConfirms.TryRemove(ea.DeliveryTag, out var tcs))
-            //    {
-            //        tcs.TrySetException(new Exception("Message was NACKed by broker."));
-            //        _unconfirmedMessages.TryRemove(ea.DeliveryTag, out _);
-            //    }
-            //};
         }
 
         public async Task<T> PublishAsync<T>(object @event) where T : class
@@ -65,11 +41,6 @@ namespace BoardProject.Domain.Services.RabbitMq
                     tcs.SetResult(data!);
                 }
             };
-
-            // var deliveryTag = _channel.NextPublishSeqNo;
-            // Store message and confirmation task
-            //_unconfirmedMessages.TryAdd(deliveryTag, @event!);
-            //_pendingConfirms.TryAdd(deliveryTag, tcs);
 
             var messageBody = Encoding.UTF8.GetBytes(JsonSerializer.Serialize(@event));
             var basicProperties = _channel.CreateBasicProperties();
