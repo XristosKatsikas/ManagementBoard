@@ -105,6 +105,11 @@ namespace BoardProject.Domain.Services.RabbitMq
             GC.SuppressFinalize(this);
         }
 
+        /// <summary>
+        /// Completes the tasks waiting for publisher confirms, signaling that the message has been successfully acknowledged.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="ea"></param>
         private void OnBasicAck(object sender, BasicAckEventArgs ea)
         {
             // Handle multiple confirmations
@@ -128,6 +133,12 @@ namespace BoardProject.Domain.Services.RabbitMq
             }
         }
 
+        /// <summary>
+        /// Completes the tasks waiting for publisher confirms with an exception, 
+        /// signaling the message was negatively acknowledged by the broker.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="ea"></param>
         private void OnBasicNack(object sender, BasicNackEventArgs ea)
         {
             // Handle multiple nacks
