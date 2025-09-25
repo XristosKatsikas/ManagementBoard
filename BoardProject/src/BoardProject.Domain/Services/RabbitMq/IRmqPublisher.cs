@@ -1,7 +1,7 @@
 ﻿namespace BoardProject.Domain.Services.RabbitMq
 {
-    public interface IRmqPublisher : IDisposable
+    public interface IRmqPublisher<T> : IDisposable
     {
-        Task<T> PublishAsync<T>(object @event) where T : class;
+        Task<T> PublishAsync(object @event);
     }
 }

@@ -17,6 +17,7 @@ builder.Services.AddSwaggerGeneration();
 
 builder.Services.AddDatabaseContext(builder.Configuration.GetConnectionString("DefaultConnection")!);
 builder.Services.AddServices();
+builder.Services.AddRmqPublisherServices();
 builder.Services.AddRepositories();
 builder.Services.AddFluentValidationAutoValidation().AddFluentValidationClientsideAdapters();
 builder.Services.AddEventBus(builder.Configuration);

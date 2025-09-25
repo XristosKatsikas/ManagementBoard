@@ -12,8 +12,15 @@ namespace BoardProject.Domain.Extensions
         {
             services
                 .AddScoped<IProjectService, ProjectService>()
-                .AddScoped<IUserService, UserService>()
-                .AddSingleton<IRmqPublisher, RmqPublisher>();
+                .AddScoped<IUserService, UserService>();
+
+            return services;
+        }
+
+        public static IServiceCollection AddRmqPublisherServices(this IServiceCollection services)
+        {
+            services
+                .AddSingleton(typeof(IRmqPublisher<>), typeof(RmqPublisher<>));
 
             return services;
         }

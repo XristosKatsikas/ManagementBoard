@@ -1,5 +1,4 @@
 ﻿using BoardProject.Core;
-using BoardProject.Domain.Configurations;
 using BoardProject.Domain.DTOs.Requests.Project;
 using BoardProject.Domain.DTOs.Requests.Project.Validators;
 using BoardProject.Domain.DTOs.Responses;
@@ -11,7 +10,6 @@ using BoardProject.Domain.Services.RabbitMq;
 using FluentResults;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using RabbitMQ.Client;
 
 namespace BoardProject.Domain.Services
 {
@@ -217,10 +215,10 @@ namespace BoardProject.Domain.Services
         private async Task<IEnumerable<JobResponse>> GetAllJobsByProjectIdEventAsync(GetJobsByProjectIdEvent evt)
         {
             using var scope = _serviceProvider.CreateScope();
-            var publisher = scope.ServiceProvider.GetRequiredService<IRmqPublisher>();
+            var publisher = scope.ServiceProvider.GetRequiredService<IRmqPublisher<IEnumerable<JobResponse>>>();
             try
             {
-                return await publisher.PublishAsync<IEnumerable<JobResponse>>(evt);
+                return await publisher.PublishAsync(evt);
             }
             catch (Exception ex)
             {
