@@ -10,10 +10,7 @@ namespace BoardJob.Infrastructure.BackgroundServices
 {
     public class GetJobsByProjectIdEventBackgroundService : BackgroundService
     {
-        private readonly IMediator _mediator;
         private readonly ILogger<GetJobsByProjectIdEventBackgroundService> _logger;
-        private readonly EventBusSettings _settings;
-        private readonly IModel? _channel;
 
         private readonly RmqConsumer _consumer;
 
@@ -23,10 +20,7 @@ namespace BoardJob.Infrastructure.BackgroundServices
             ConnectionFactory factory,
             ILogger<GetJobsByProjectIdEventBackgroundService> logger)
         {
-            _settings = settings;
             _logger = logger;
-            _mediator = mediator;
-
             _consumer = new RmqConsumer(mediator, settings, factory);
         }
 
@@ -34,11 +28,11 @@ namespace BoardJob.Infrastructure.BackgroundServices
         {
             try
             {
-                await _consumer.ExecuteAsync<GetJobsByProjectIdEvent>(stoppingToken);
+                await _consumer.ConsumeAsync<GetJobsByProjectIdEvent>(stoppingToken);
             }
             catch (Exception e)
             {
-                _logger.LogError("Unable to consume the event bus: {message}", e.Message);
+                _logger.LogError($"Unable to consume the event bus: {e.Message}");
                 throw;
             }
         }

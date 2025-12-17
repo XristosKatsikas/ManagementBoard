@@ -1,29 +1,45 @@
-﻿using RabbitMQ.Client.Events;
-using RabbitMQ.Client;
-using System.Text;
-using Newtonsoft.Json;
-using BoardJob.Domain.Configurations;
+﻿using BoardJob.Domain.Configurations;
 using MediatR;
+using Newtonsoft.Json;
+using RabbitMQ.Client;
+using RabbitMQ.Client.Events;
+using System.Text;
 
 namespace BoardJob.Infrastructure.RabbitMq
 {
-    public class RmqConsumer : IRmqConsumer
+    public class RmqConsumer : IRmqConsumer, IDisposable
     {
         private readonly IConnection _connection;
         private readonly IMediator _mediator;
         private readonly EventBusSettings _settings;
-        private readonly IModel? _channel;
+        private readonly IModel _channel;
 
         public RmqConsumer(IMediator mediator, EventBusSettings settings, ConnectionFactory factory)
         {
+            _mediator = mediator;
             _settings = settings;
             _connection = factory.CreateConnection();
-            _mediator = mediator;
             _channel = _connection.CreateModel();
-            _channel.QueueDeclare(_settings.EventQueue, durable: false, exclusive: false, autoDelete: false);
+
+            DeclareQueueAndExchange();
         }
 
-        public async Task ExecuteAsync<T>(CancellationToken stoppingToken) where T : class
+        private void DeclareQueueAndExchange()
+        {
+            // Declare exchange if necessary
+            //_channel.ExchangeDeclare(_settings.Fanout, ExchangeType.Fanout, durable: true);
+
+            var args = new Dictionary<string, object>
+            {
+                { "x-dead-letter-exchange", "your-dead-letter-exchange" }
+            };
+
+            _channel.QueueDeclare(queue: _settings.EventQueue, durable: true, exclusive: false, autoDelete: false, arguments: args);
+            // Optionally bind queue to exchange if needed
+            // _channel.QueueBind(_settings.EventQueue, _settings.Fanout, routingKey: "");
+        }
+
+        public async Task ConsumeAsync<T>(CancellationToken stoppingToken) where T : class
         {
             stoppingToken.ThrowIfCancellationRequested();
 
@@ -36,51 +52,47 @@ namespace BoardJob.Infrastructure.RabbitMq
                     var message = Encoding.UTF8.GetString(ea.Body.ToArray());
                     var @event = JsonConvert.DeserializeObject<T>(message);
 
-                    // Process the event: fetch data from repository
+                    // Call mediator to process event
                     var responseData = await _mediator.Send(@event!, stoppingToken);
 
                     // Prepare response
                     var replyProps = ea.BasicProperties;
-                    //var replyTo = replyProps.ReplyTo; // the reply queue
-                    replyProps.ReplyTo = _settings.EventQueue;
+                    replyProps.ReplyTo = _settings.EventQueue; // set reply queue if needed
                     replyProps.CorrelationId = ea.BasicProperties.CorrelationId;
 
-                    if (!string.IsNullOrEmpty(_settings.EventQueue))
+                    if (!string.IsNullOrEmpty(replyProps.ReplyTo))
                     {
                         var responseJson = JsonConvert.SerializeObject(responseData);
                         var body = Encoding.UTF8.GetBytes(responseJson);
+                        var basicProperties = _channel.CreateBasicProperties();
+                        basicProperties.CorrelationId = replyProps.CorrelationId;
 
-                        var basicProperties = _channel?.CreateBasicProperties();
-                        basicProperties!.CorrelationId = replyProps.CorrelationId;
-
-                        // If the message expects a reply (based on ReplyTo property),
-                        // you send the reply by calling BasicPublish() inside the handler.
-                        // You publish the reply to the exchange / queue specified in ea.BasicProperties.ReplyTo.
-                        _channel?.BasicPublish(exchange: _settings.Fanout, routingKey: "", basicProperties: basicProperties, body: body);
+                        _channel.BasicPublish(exchange: _settings.Fanout, routingKey: "", basicProperties: basicProperties, body: body);
                     }
 
-                    _channel?.BasicAck(ea.DeliveryTag, false);
+                    _channel.BasicAck(ea.DeliveryTag, false);
                 }
                 catch (Exception ex)
                 {
-                    // NACK the message
-                    _channel?.BasicNack(ea.DeliveryTag, multiple: false, requeue: true);
-                    // Discard the message:
-                    // _channel?.BasicReject(ea.DeliveryTag, requeue: false);
+                    // Log exception
+                    // Optionally, send message to dead-letter or requeue
+                    _channel.BasicNack(ea.DeliveryTag, multiple: false, requeue: false);
+                    // Consider logging ex
                 }
-
-                // ToDo: Ensure you handle message retries and dead-lettering if messages repeatedly fail.
             };
 
-            _channel.BasicConsume(_settings.EventQueue, autoAck: false, consumer);
+            _channel.BasicConsume(queue: _settings.EventQueue, autoAck: false, consumer: consumer);
 
-            await Task.CompletedTask; // Keep the consumer alive
+            await Task.CompletedTask; // Keep alive
         }
 
         public void Dispose()
         {
+            _channel?.Close();
             _channel?.Dispose();
-            _connection.Dispose();
+            _connection?.Close();
+            _connection?.Dispose();
+            GC.SuppressFinalize(this);
         }
     }
 }

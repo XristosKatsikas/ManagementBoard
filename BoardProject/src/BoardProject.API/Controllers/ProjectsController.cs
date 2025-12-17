@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace BoardProject.API.Controllers
 {
     [ApiController]
-    [Route("/[controller]/")]
+    [Route("/api/[controller]/")]
     [Authorize]
     public class ProjectsController : ControllerBase
     {

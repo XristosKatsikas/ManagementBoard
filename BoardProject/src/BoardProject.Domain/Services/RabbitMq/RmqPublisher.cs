@@ -7,35 +7,56 @@ using System.Text.Json;
 
 namespace BoardProject.Domain.Services.RabbitMq
 {
-    public class RmqPublisher<T> : IRmqPublisher<T>
+    public class RmqPublisher<T> : IRmqPublisher<T>, IDisposable
     {
         private readonly IConnection _connection;
         private readonly IModel _channel;
         private readonly EventBusSettings _settings;
 
+        // tracks responses for request-response messaging.
+        // It's essential if you're expecting responses to correlate with requests.
         private readonly ConcurrentDictionary<string, TaskCompletionSource<T>> _pendingResponses = new();
-
-        //Use a thread-safe dictionary to track pending requests
+        //tracks message confirmations (acks/nacks) from RabbitMQ.
+        //It's necessary for publisher confirm handling, to know whether messages were successfully published.
         private readonly ConcurrentDictionary<ulong, TaskCompletionSource<bool>> _pendingConfirms = new();
 
-        public RmqPublisher(EventBusSettings settings, ConnectionFactory eventBusConnectionFactory)
+        private AsyncEventingBasicConsumer? _replyConsumer;
+
+        public RmqPublisher(EventBusSettings settings, ConnectionFactory connectionFactory)
         {
-            _connection = eventBusConnectionFactory.CreateConnection();
-            _channel = _connection.CreateModel();
             _settings = settings;
+            _connection = connectionFactory.CreateConnection();
+            _channel = _connection.CreateModel();
 
+            InitializeExchangeAndQueue();
+            SetupConsumer();
+        }
+
+        private void InitializeExchangeAndQueue()
+        {
+            // Declare exchange
             _channel.ExchangeDeclare(exchange: _settings.Fanout, type: ExchangeType.Fanout);
-            // enable publisher for acknowledgments
-            _channel.ConfirmSelect();
 
+            // Declare queue with dead-letter exchange
+            var args = new Dictionary<string, object>
+            {
+                { "x-dead-letter-exchange", "x-dead-letter-exchange" } // ensure this exists in settings
+            };
+
+            _channel.QueueDeclare(queue: _settings.EventQueue, durable: true, exclusive: false, autoDelete: false, arguments: args);
+
+            // Bind queue to exchange if needed
+            // _channel.QueueBind(_settings.EventQueue, _settings.Fanout, routingKey: "");
+        }
+
+        private void SetupConsumer()
+        {
+            _channel.ConfirmSelect(); // enable publisher confirms
             _channel.BasicAcks += OnBasicAck!;
             _channel.BasicNacks += OnBasicNack!;
-            // replyConsumer listens for responses on a specific queue, process incoming messages,
-            // and complete associated tasks with the response data
-            var replyConsumer = new AsyncEventingBasicConsumer(_channel);
-            //Subscribes to the Received event, which fires whenever a message arrives.
-            //The handler is async to allow awaiting asynchronous operations inside.
-            replyConsumer.Received += async (model, ea) =>
+
+            _replyConsumer = new AsyncEventingBasicConsumer(_channel);
+            _replyConsumer.Received += async (model, ea) =>
             {
                 var correlationId = ea.BasicProperties.CorrelationId;
                 if (_pendingResponses.TryRemove(correlationId, out var tcs))
@@ -43,11 +64,9 @@ namespace BoardProject.Domain.Services.RabbitMq
                     try
                     {
                         var responseString = Encoding.UTF8.GetString(ea.Body.ToArray());
-                        // responseData is the deserialized response message received via RabbitMQ
                         var responseData = JsonSerializer.Deserialize<T>(responseString);
-                        if (responseData is not null)
+                        if (responseData != null)
                         {
-                            // set the result of the TaskCompletionSource<T> (tcs) to responseData
                             tcs.SetResult(responseData);
                         }
                         else
@@ -57,42 +76,75 @@ namespace BoardProject.Domain.Services.RabbitMq
                     }
                     catch (Exception ex)
                     {
-                        // Log unexpected errors
                         tcs.SetException(ex);
                     }
                 }
                 await Task.CompletedTask;
             };
-            _channel.BasicConsume(queue: _settings.EventQueue, autoAck: true, consumer: replyConsumer);
+
+            _channel.BasicConsume(queue: _settings.EventQueue, autoAck: true, consumer: _replyConsumer);
         }
 
         public async Task<T> PublishAsync(object @event)
         {
             var correlationId = Guid.NewGuid().ToString();
             var confirmTcs = new TaskCompletionSource<bool>(TaskCreationOptions.RunContinuationsAsynchronously);
+            _pendingConfirms[_channel.NextPublishSeqNo] = confirmTcs;
 
-            try
+            var messageBody = Encoding.UTF8.GetBytes(JsonSerializer.Serialize(@event));
+            var basicProperties = _channel.CreateBasicProperties();
+            basicProperties.CorrelationId = correlationId;
+            basicProperties.ReplyTo = _settings.EventQueue;
+
+            _channel.BasicPublish(
+                exchange: _settings.Fanout,
+                routingKey: "",
+                basicProperties: basicProperties,
+                body: messageBody);
+
+            await confirmTcs.Task; // wait for broker confirmation
+
+            var responseTcs = new TaskCompletionSource<T>(TaskCreationOptions.RunContinuationsAsynchronously);
+            _pendingResponses[correlationId] = responseTcs;
+
+            return await responseTcs.Task;
+        }
+
+        private void OnBasicAck(object sender, BasicAckEventArgs ea)
+        {
+            HandleConfirms(ea.DeliveryTag, ea.Multiple, success: true);
+        }
+
+        private void OnBasicNack(object sender, BasicNackEventArgs ea)
+        {
+            HandleConfirms(ea.DeliveryTag, ea.Multiple, success: false);
+        }
+
+        private void HandleConfirms(ulong deliveryTag, bool multiple, bool success)
+        {
+            if (multiple)
             {
-                _pendingConfirms[_channel.NextPublishSeqNo] = confirmTcs;
-
-                var messageBody = Encoding.UTF8.GetBytes(JsonSerializer.Serialize(@event));
-                var basicProperties = _channel.CreateBasicProperties();
-                basicProperties.CorrelationId = correlationId;
-                basicProperties.ReplyTo = _settings.EventQueue;
-
-                _channel.BasicPublish(exchange: _settings.Fanout, routingKey: "", basicProperties: basicProperties, body: messageBody);
-
-                await confirmTcs.Task; // Wait for broker confirmation
-
-                var responseTcs = new TaskCompletionSource<T>(TaskCreationOptions.RunContinuationsAsynchronously);
-                _pendingResponses[correlationId] = responseTcs;
-
-                return await responseTcs.Task; // Waits asynchronously for response
+                var seqNos = _pendingConfirms.Keys.Where(seq => seq <= deliveryTag).ToList();
+                foreach (var seq in seqNos)
+                {
+                    if (_pendingConfirms.TryRemove(seq, out var tcs))
+                    {
+                        if (success)
+                            tcs.SetResult(true);
+                        else
+                            tcs.SetException(new Exception("Message nacked by broker."));
+                    }
+                }
             }
-            catch (Exception ex)
+            else
             {
-                // log error
-                throw;
+                if (_pendingConfirms.TryRemove(deliveryTag, out var tcs))
+                {
+                    if (success)
+                        tcs.SetResult(true);
+                    else
+                        tcs.SetException(new Exception("Message nacked by broker."));
+                }
             }
         }
 
@@ -103,63 +155,6 @@ namespace BoardProject.Domain.Services.RabbitMq
             _channel?.Dispose();
             _connection?.Dispose();
             GC.SuppressFinalize(this);
-        }
-
-        /// <summary>
-        /// Completes the tasks waiting for publisher confirms, signaling that the message has been successfully acknowledged.
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="ea"></param>
-        private void OnBasicAck(object sender, BasicAckEventArgs ea)
-        {
-            // Handle multiple confirmations
-            if (ea.Multiple)
-            {
-                var confirmedSeqNos = _pendingConfirms.Keys.Where(seq => seq <= ea.DeliveryTag).ToList();
-                foreach (var seq in confirmedSeqNos)
-                {
-                    if (_pendingConfirms.TryRemove(seq, out var tcs))
-                    {
-                        tcs.SetResult(true);
-                    }
-                }
-            }
-            else
-            {
-                if (_pendingConfirms.TryRemove(ea.DeliveryTag, out var tcs))
-                {
-                    tcs.SetResult(true);
-                }
-            }
-        }
-
-        /// <summary>
-        /// Completes the tasks waiting for publisher confirms with an exception, 
-        /// signaling the message was negatively acknowledged by the broker.
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="ea"></param>
-        private void OnBasicNack(object sender, BasicNackEventArgs ea)
-        {
-            // Handle multiple nacks
-            if (ea.Multiple)
-            {
-                var nackedSeqNos = _pendingConfirms.Keys.Where(seq => seq <= ea.DeliveryTag).ToList();
-                foreach (var seq in nackedSeqNos)
-                {
-                    if (_pendingConfirms.TryRemove(seq, out var tcs))
-                    {
-                        tcs.SetException(new Exception("Message nacked by broker."));
-                    }
-                }
-            }
-            else
-            {
-                if (_pendingConfirms.TryRemove(ea.DeliveryTag, out var tcs))
-                {
-                    tcs.SetException(new Exception("Message nacked by broker."));
-                }
-            }
         }
     }
 }

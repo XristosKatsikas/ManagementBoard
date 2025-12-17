@@ -2,6 +2,6 @@
 {
     public interface IRmqConsumer
     {
-        Task ExecuteAsync<T>(CancellationToken stoppingToken) where T : class;
+        Task ConsumeAsync<T>(CancellationToken stoppingToken) where T : class;
     }
 }
